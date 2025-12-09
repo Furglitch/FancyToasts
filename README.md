@@ -11,7 +11,7 @@ Try it out on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/fancy-to
 # CUSTOMIZATION 🤪
 
 ### Custom Textures
-This mods supports custom textures! Yes, you can add textures from friends, modpcaks, or create your own! It's as easy as just drawing a texture. To do so, you can follow [this guide](https://github.com/Bivrik/FancyToasts/wiki/Custom-Texture-Guide). With this, possibilities of customization are endless! If you just want to add existing texture, check out this [page](https://github.com/Bivrik/FancyToasts/wiki/Custom-Texture-Guide#using).
+This mod supports custom textures! Yes, you can add textures from friends, modpcaks, or create your own! It's as easy as just drawing a texture. To do so, you can follow [this guide](https://github.com/Bivrik/FancyToasts/wiki/Custom-Texture-Guide). With this, possibilities of customization are endless! If you just want to add existing texture, check out this [page](https://github.com/Bivrik/FancyToasts/wiki/Custom-Texture-Guide#using).
 
 ### Custom Config Screen
 It's not only about visuals, it's also about conveniences. It adds new screens for configuration. You can change textures, animations and sounds easily, along side with more tehnical settings, such as volumes, compatibilities and etc!

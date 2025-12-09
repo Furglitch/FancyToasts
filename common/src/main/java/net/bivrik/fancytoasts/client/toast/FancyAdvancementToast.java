@@ -4,7 +4,6 @@ import net.bivrik.fancytoasts.core.Debug;
 import net.bivrik.fancytoasts.client.registry.AnimationRegistry;
 import net.bivrik.fancytoasts.client.toast.animation.FancyToastAnimation;
 import net.bivrik.fancytoasts.core.Managers;
-import net.bivrik.fancytoasts.core.manager.CustomTextureManager;
 import net.bivrik.fancytoasts.platform.utility.ToastDisplayInfo;
 import net.bivrik.fancytoasts.utility.DefaultUVs;
 import net.minecraft.client.Minecraft;
@@ -23,11 +22,11 @@ public class FancyAdvancementToast {
     private static final int HEIGHT = 70;
     private static final Random random = new Random();
 
-    private FancyToastAnimation animation;
-    private ResourceLocation toastSoundId;
-    private float volume;
-    private SoundManager soundManager;
+    private final FancyToastAnimation animation;
+    private final ResourceLocation toastSoundId;
+    private final float volume;
 
+    private SoundManager soundManager;
     private long time;
     private boolean isEnded = false;
     private int playedSoundsCount = 0;
@@ -61,7 +60,7 @@ public class FancyAdvancementToast {
         animation.setup(setup, minecraft, getWidth(), getHeight());
         toastSoundId = Managers.getConfigManager().getToastConfigData().getSoundIdByType(displayInfo.getAdvancementType());
 
-        Debug.info("Created new fancy advancement toast: {}; texture: {}; animation: {}", displayInfo.getTitle().getString(), textureId, animationId);
+        Debug.info("Created new fancy advancement toast: {}", displayInfo.getTitle().getString());
     }
 
     public void draw(GuiGraphics graphics) {
