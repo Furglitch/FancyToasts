@@ -104,7 +104,7 @@ public class OldlikeAnimation extends FancyToastAnimation {
                 int x = MathEasing.elasticEaseOutLerp(50, 0, titleAppearProgress);
                 context.translate(x, 0);
             }
-            this.drawTitle(guiGraphics, titleAppearProgress - fadeOutTextAlpha);
+            this.drawTitle(context, titleAppearProgress - fadeOutTextAlpha);
             context.pop();
         }
 
@@ -114,7 +114,7 @@ public class OldlikeAnimation extends FancyToastAnimation {
                 int x = MathEasing.elasticEaseOutLerp(50, 0, descriptionAppearProgress);
                 context.translate(x, 0);
             }
-            this.drawDescription(guiGraphics, descriptionAppearProgress - fadeOutTextAlpha);
+            this.drawDescription(context, descriptionAppearProgress - fadeOutTextAlpha);
             context.pop();
         }
     }

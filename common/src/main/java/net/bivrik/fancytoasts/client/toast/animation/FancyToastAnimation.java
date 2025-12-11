@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public abstract class FancyToastAnimation {
-    private final static float TIME_SCALE = 0.00125f;
+    private final static float LOOP_TIME_SCALE = 0.00125f;
 
     private final Consumer<GeneralConfigDataEvent> generalConfigDataEventConsumer;
 
@@ -126,54 +126,54 @@ public abstract class FancyToastAnimation {
         drawBackground(guiContext, Color.WHITE);
     }
 
-    protected void drawTitle(GuiGraphics guiGraphics, float alpha) {
+    protected void drawTitle(GuiContext guiContext, float alpha) {
         if (titleLines.isEmpty()) {
             return;
         }
 
-        int titleColor = displayInfo.getAdvancementType().getMainColor().withAlpha(alpha).toARGB();
+        Color titleColor = displayInfo.getAdvancementType().getMainColor().withAlpha(alpha);
         int toastCenterX = toastWidth / 2;
         FormattedCharSequence titleLine = titleLines.getFirst();
 
         if (titleLines.size() == 1) {
-            guiGraphics.drawCenteredString(minecraft.font, titleLine, toastCenterX, 25, titleColor);
+            guiContext.drawCenteredText(minecraft.font, titleLine, toastCenterX, 25, titleColor);
         } else {
-            guiGraphics.drawCenteredString(minecraft.font, titleLine, toastCenterX - minecraft.font.width("...") / 2, 25, titleColor);
-            guiGraphics.drawCenteredString(minecraft.font, "...", toastCenterX + 1 + minecraft.font.width(titleLine) / 2, 25, titleColor);
+            guiContext.drawCenteredText(minecraft.font, titleLine, toastCenterX - minecraft.font.width("...") / 2, 25, titleColor);
+            guiContext.drawCenteredText(minecraft.font, "...", toastCenterX + 1 + minecraft.font.width(titleLine) / 2, 25, titleColor);
         }
     }
-    protected void drawTitle(GuiGraphics guiGraphics) {
-        drawTitle(guiGraphics, 1);
+    protected void drawTitle(GuiContext guiContext) {
+        drawTitle(guiContext, 1);
     }
 
-    protected void drawDescription(GuiGraphics guiGraphics, float alpha) {
+    protected void drawDescription(GuiContext guiContext, float alpha) {
         if (descriptionLines.isEmpty()) {
             return;
         }
 
-        int descriptionColor = displayInfo.getAdvancementType().getSecondaryColor().withAlpha(alpha).toARGB();
+        Color descriptionColor = displayInfo.getAdvancementType().getSecondaryColor().withAlpha(alpha);
 
-        guiGraphics.drawString(minecraft.font, descriptionLines.get(0), 8, 38, descriptionColor);
+        guiContext.drawText(minecraft.font, descriptionLines.get(0), 8, 38, descriptionColor);
         if (descriptionLines.size() > 1) {
             var descriptionSecondLine = descriptionLines.get(1);
-            guiGraphics.drawString(minecraft.font, descriptionSecondLine, 8, 47, descriptionColor);
+            guiContext.drawText(minecraft.font, descriptionSecondLine, 8, 47, descriptionColor);
 
             if (descriptionLines.size() > 2) {
-                guiGraphics.drawString(minecraft.font, "...", 8 + minecraft.font.width(descriptionSecondLine), 47, descriptionColor);
+                guiContext.drawText(minecraft.font, "...", 8 + minecraft.font.width(descriptionSecondLine), 47, descriptionColor);
             }
         }
     }
-    protected void drawDescription(GuiGraphics guiGraphics) {
-        drawDescription(guiGraphics, 1);
+    protected void drawDescription(GuiContext guiContext) {
+        drawDescription(guiContext, 1);
     }
 
     protected float sinusoidLoop(long time, float speed, float strength) {
-        float scaledTime = time * TIME_SCALE * speed * loopsSpeed;
+        float scaledTime = time * LOOP_TIME_SCALE * speed * loopsSpeed;
         return (float) Math.sin(scaledTime) * strength * loopsStrength;
     }
 
     protected float cosineLoop(long time, float speed, float strength) {
-        float scaledTime = time * TIME_SCALE * speed * loopsSpeed;
+        float scaledTime = time * LOOP_TIME_SCALE * speed * loopsSpeed;
         return (float) Math.cos(scaledTime) * strength * loopsStrength;
     }
 }

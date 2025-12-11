@@ -2,6 +2,7 @@ package net.bivrik.fancytoasts.client.toast.animation;
 
 import net.bivrik.fancytoasts.client.toast.AnimationSetup;
 import net.bivrik.fancytoasts.client.toast.Appearance;
+import net.bivrik.fancytoasts.platform.utility.Color;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.bivrik.fancytoasts.utility.MathEasing;
 import net.minecraft.client.Minecraft;
@@ -79,8 +80,8 @@ public class StandardAnimation extends FancyToastAnimation {
         }
 
         if (textAppearProgress > 0) {
-            this.drawTitle(guiGraphics, textAppearProgress);
-            this.drawDescription(guiGraphics, textAppearProgress);
+            this.drawTitle(context, textAppearProgress);
+            this.drawDescription(context, textAppearProgress);
         }
 
         if (fadeOutProgress > 0) {
@@ -89,21 +90,21 @@ public class StandardAnimation extends FancyToastAnimation {
     }
 
     @Override
-    protected void drawDescription(GuiGraphics guiGraphics, float alpha) {
+    protected void drawDescription(GuiContext context, float alpha) {
         var descriptionLines = getDescriptionLines();
         if (descriptionLines.isEmpty()) {
             return;
         }
 
-        int descriptionColor = displayInfo.getAdvancementType().getSecondaryColor().withAlpha(alpha).toARGB();
+        Color descriptionColor = displayInfo.getAdvancementType().getSecondaryColor().withAlpha(alpha);
         int centerToastX = this.toastWidth / 2;
 
         if (descriptionLines.size() == 1) {
-            guiGraphics.drawCenteredString(this.minecraft.font, descriptionLines.getFirst(), centerToastX, 43, descriptionColor);
+            context.drawCenteredText(this.minecraft.font, descriptionLines.getFirst(), centerToastX, 43, descriptionColor);
         } else {
             int lineHeight = 42 - (9 * (descriptionLines.size() - 1)) / 2;
             for (FormattedCharSequence line : descriptionLines) {
-                guiGraphics.drawCenteredString(this.minecraft.font, line, centerToastX, lineHeight, descriptionColor);
+                context.drawCenteredText(this.minecraft.font, line, centerToastX, lineHeight, descriptionColor);
                 lineHeight += 9;
             }
         }

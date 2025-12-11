@@ -2,6 +2,7 @@ package net.bivrik.fancytoasts.client.toast.animation;
 
 import net.bivrik.fancytoasts.client.toast.AnimationSetup;
 import net.bivrik.fancytoasts.client.toast.Appearance;
+import net.bivrik.fancytoasts.platform.utility.Color;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.bivrik.fancytoasts.utility.MathEasing;
 import net.minecraft.client.Minecraft;
@@ -95,8 +96,8 @@ public class QuirkyAnimation extends FancyToastAnimation {
         }
 
         if (textAppearProgress > 0) {
-            this.drawTitle(guiGraphics, textAppearProgress);
-            this.drawDescription(guiGraphics, textAppearProgress);
+            this.drawTitle(context, textAppearProgress);
+            this.drawDescription(context, textAppearProgress);
         }
 
         if (fadeOutProgress > 0) {
@@ -107,23 +108,23 @@ public class QuirkyAnimation extends FancyToastAnimation {
     }
 
     @Override
-    protected void drawDescription(GuiGraphics guiGraphics, float alpha) {
+    protected void drawDescription(GuiContext guiContext, float alpha) {
         var descriptionLines = getDescriptionLines();
         if (descriptionLines.isEmpty()) {
             return;
         }
 
-        int descriptionColor = displayInfo.getAdvancementType().getSecondaryColor().withAlpha(alpha).toARGB();
+        Color descriptionColor = displayInfo.getAdvancementType().getSecondaryColor().withAlpha(alpha);
         int centerToastX = toastWidth / 2;
 
-        guiGraphics.drawCenteredString(minecraft.font, descriptionLines.get(0), centerToastX, 38, descriptionColor);
+        guiContext.drawCenteredText(minecraft.font, descriptionLines.get(0), centerToastX, 38, descriptionColor);
         if (descriptionLines.size() > 1) {
             var descriptionSecondLine = descriptionLines.get(1);
             if (descriptionLines.size() == 2) {
-                guiGraphics.drawCenteredString(minecraft.font, descriptionSecondLine, centerToastX, 47, descriptionColor);
+                guiContext.drawCenteredText(minecraft.font, descriptionSecondLine, centerToastX, 47, descriptionColor);
             } else {
-                guiGraphics.drawCenteredString(minecraft.font, descriptionSecondLine, centerToastX - minecraft.font.width("...") / 2, 47, descriptionColor);
-                guiGraphics.drawCenteredString(minecraft.font, "...", centerToastX + minecraft.font.width(descriptionSecondLine) / 2, 47, descriptionColor);
+                guiContext.drawCenteredText(minecraft.font, descriptionSecondLine, centerToastX - minecraft.font.width("...") / 2, 47, descriptionColor);
+                guiContext.drawCenteredText(minecraft.font, "...", centerToastX + minecraft.font.width(descriptionSecondLine) / 2, 47, descriptionColor);
             }
         }
     }
