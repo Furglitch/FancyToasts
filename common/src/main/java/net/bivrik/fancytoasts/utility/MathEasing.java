@@ -1,16 +1,17 @@
 package net.bivrik.fancytoasts.utility;
 
+@Deprecated
 public class MathEasing {
-    private static float easeOut(float t) {
+    public static float easeOut(float t) {
         return (float) (1 - Math.pow(1 - t, 8));
     }
-    private static float easeIn(float t) {
+    public static float easeIn(float t) {
         return (float) (Math.pow(t, 8));
     }
-    private static float easeInOut(float t) {
+    public static float easeInOut(float t) {
         return (float) (Math.pow(t, 2) * (3.0f - 2.0f * t));
     }
-    private static float elasticEaseOut(float t) {
+    public static float elasticEaseOut(float t) {
         return (float) (1 - Math.pow(2, -10 * t) * Math.cos(t * Math.PI * 4));
     }
 
