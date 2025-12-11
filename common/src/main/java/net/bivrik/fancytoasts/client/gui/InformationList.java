@@ -44,16 +44,16 @@ public class InformationList extends AbstractSelectionList<InformationList.Entry
 
         clear();
 
-        this.addLine(displayData.getDisplayName(), Color.YELLOW.toARGB());
+        this.addLine(displayData.getDisplayName(), Color.YELLOW);
         if (isConfig) {
-            addLine(CUSTOM_LABEL, Color.RED.toARGB());
+            addLine(CUSTOM_LABEL, Color.RED);
         }
         addSpace();
-        addLine(AUTHOR_LABEL, Color.WHITE.toARGB());
-        addLine(displayData.getAuthor(), Color.LIGHT_GRAY.toARGB());
+        addLine(AUTHOR_LABEL, Color.WHITE);
+        addLine(displayData.getAuthor(), Color.LIGHT_GRAY);
         addSpace();
-        addLine(DESCRIPTION_LABEL, Color.WHITE.toARGB());
-        addLine(displayData.getDisplayDescription(), Color.LIGHT_GRAY.toARGB());
+        addLine(DESCRIPTION_LABEL, Color.WHITE);
+        addLine(displayData.getDisplayDescription(), Color.LIGHT_GRAY);
 
         acceptLines();
     }
@@ -64,7 +64,7 @@ public class InformationList extends AbstractSelectionList<InformationList.Entry
         lines.clear();
     }
 
-    private void addLine(Component content, int color) {
+    private void addLine(Component content, Color color) {
         Font font = this.minecraft.font;
 
         List<FormattedCharSequence> textLines = font.split(content, this.getRowWidth());
@@ -74,7 +74,7 @@ public class InformationList extends AbstractSelectionList<InformationList.Entry
     }
 
     private void addSpace() {
-        lines.add(new InformationListEntry(this.minecraft.font, FormattedCharSequence.EMPTY, 0));
+        lines.add(new InformationListEntry(this.minecraft.font, FormattedCharSequence.EMPTY, Color.TRANSPARENT));
     }
 
     private void acceptLines() {
@@ -114,9 +114,9 @@ public class InformationList extends AbstractSelectionList<InformationList.Entry
     private static final class InformationListEntry extends Entry {
         private final Font font;
         private final FormattedCharSequence content;
-        private final int color;
+        private final Color color;
 
-        public InformationListEntry(Font font, FormattedCharSequence content, int color) {
+        public InformationListEntry(Font font, FormattedCharSequence content, Color color) {
             this.font = font;
             this.content = content;
             this.color = color;
@@ -124,7 +124,7 @@ public class InformationList extends AbstractSelectionList<InformationList.Entry
 
         @Override
         public void renderContent(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, boolean hovering, float partialTick) {
-            guiGraphics.drawString(font, content, this.getX(), this.getY() + 3, color);
+            new GuiContext(guiGraphics).drawText(font, content, this.getX(), this.getY() + 3, color);
         }
     }
 }

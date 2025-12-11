@@ -259,15 +259,15 @@ public class ResourceLocationList extends ObjectSelectionList<ResourceLocationLi
 
         @Override
         public void renderContent(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, boolean isHovering, float partialTick) {
-            int mainColor = Color.WHITE.toARGB();
-            int secondColor = Color.LIGHT_GRAY.toARGB();
+            Color mainColor = Color.WHITE;
+            Color secondColor = Color.LIGHT_GRAY;
+            GuiContext context = new GuiContext(guiGraphics);
 
             if (isFocused()) {
-                mainColor = Color.YELLOW.toARGB();
-                secondColor = Color.PURPLE.toARGB();
+                mainColor = Color.YELLOW;
+                secondColor = Color.PURPLE;
             }
             else if (isHovering) {
-                var context = new GuiContext(guiGraphics);
                 context.fill(x(), y(), width(), height(), Color.WHITE.withAlpha(0.05f));
                 context.fill(x() + 1, y() + 1, width() - 2, height() - 2, Color.BLACK.withAlpha(0.35f));
             }
@@ -277,15 +277,15 @@ public class ResourceLocationList extends ObjectSelectionList<ResourceLocationLi
             FormattedCharSequence nameFirstLine = nameLines.getFirst();
 
             if (nameLines.size() == 1) {
-                guiGraphics.drawString(font, nameFirstLine, nameX, nameY, mainColor);
+                context.drawText(font, nameFirstLine, nameX, nameY, mainColor);
             }
             else {
-                guiGraphics.drawString(font, nameLines.get(1), nameX, nameY + 3, secondColor);
-                guiGraphics.drawString(font, nameFirstLine, nameX, nameY - 3, mainColor);
+                context.drawText(font, nameLines.get(1), nameX, nameY + 3, secondColor);
+                context.drawText(font, nameFirstLine, nameX, nameY - 3, mainColor);
             }
 
             if (isConfig) {
-                guiGraphics.drawString(font, Component.literal("c"), x() + width() - 10, nameY, Color.LIGHT_GRAY.toARGB());
+                context.drawText(font, Component.literal("c"), x() + width() - 10, nameY, Color.LIGHT_GRAY);
             }
         }
     }

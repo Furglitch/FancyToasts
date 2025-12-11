@@ -195,8 +195,9 @@ public class GeneralConfigScreen extends UniversalScreen {
 
         int offsetX = 7;
         int offsetY = 5;
-        guiGraphics.drawString(this.font, "x:", offsetXEditBox.getX() - offsetX, offsetXEditBox.getY() + offsetY, Color.LIGHT_GRAY.toARGB());
-        guiGraphics.drawString(this.font, "y:", offsetYEditBox.getX() - offsetX, offsetYEditBox.getY() + offsetY, Color.LIGHT_GRAY.toARGB());
+        GuiContext context = new GuiContext(guiGraphics);
+        context.drawText(this.font, "x:", offsetXEditBox.getX() - offsetX, offsetXEditBox.getY() + offsetY, Color.LIGHT_GRAY);
+        context.drawText(this.font, "y:", offsetYEditBox.getX() - offsetX, offsetYEditBox.getY() + offsetY, Color.LIGHT_GRAY);
     }
 
     private void drawSavedFeedback(GuiGraphics guiGraphics, int x, int y) {
@@ -209,9 +210,9 @@ public class GeneralConfigScreen extends UniversalScreen {
         float disappearanceLerp = Appearance.getProgress(time, 500, 400);
 
         float alpha = appearanceLerp - disappearanceLerp;
-        int color = Color.YELLOW.withAlpha(alpha).toARGB();
+        Color color = Color.YELLOW.withAlpha(alpha);
 
-        guiGraphics.drawString(this.font, SAVED_LABEL, x, y, color);
+        new GuiContext(guiGraphics).drawText(this.font, SAVED_LABEL, x, y, color);
 
         if (time >= 1000) {
             isSaved = false;

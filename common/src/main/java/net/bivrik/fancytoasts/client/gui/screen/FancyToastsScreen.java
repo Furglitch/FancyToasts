@@ -105,7 +105,7 @@ public class FancyToastsScreen extends UniversalScreen {
         GuiContext context = new GuiContext(guiGraphics);
         context.push();
         context.scaleAround(size, (float) (this.width / 2), 12 + 9 + 4.5F);
-        guiGraphics.drawCenteredString(this.font, splash, this.width / 2, 12 + 9, Color.YELLOW.toARGB());
+        context.drawCenteredText(this.font, splash, this.width / 2, 12 + 9, Color.YELLOW);
         context.pop();
     }
 }

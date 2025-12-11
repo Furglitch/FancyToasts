@@ -2,8 +2,8 @@ package net.bivrik.fancytoasts.client.gui.screen;
 
 import net.bivrik.fancytoasts.client.gui.LayoutValues;
 import net.bivrik.fancytoasts.client.gui.Slider;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.OptionInstance;
+import net.bivrik.fancytoasts.platform.utility.Color;
+import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
@@ -81,7 +81,7 @@ public abstract class UniversalScreen extends Screen {
     }
 
     protected void drawTitle(GuiGraphics guiGraphics) {
-        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 12, -1);
+        new GuiContext(guiGraphics).drawCenteredText(this.font, this.title, this.width / 2, 12, Color.WHITE);
     }
 
     protected Button createButton(Component label, Button.OnPress action, int x, int y, int width, int height, Tooltip tooltip) {
