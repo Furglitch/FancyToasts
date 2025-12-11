@@ -82,11 +82,11 @@ public class GuiContext {
     }
 
     public void drawCenteredText(Font font, String text, int x, int y, Color color) {
-        drawText(font, toFormattedCharSequence(text), x, y, color);
+        drawCenteredText(font, toFormattedCharSequence(text), x, y, color);
     }
 
     public void drawCenteredText(Font font, Component text, int x, int y, Color color) {
-        drawText(font, toFormattedCharSequence(text), x, y, color);
+        drawCenteredText(font, toFormattedCharSequence(text), x, y, color);
     }
 
     public void drawTexture(RenderPipeline pipeline, ResourceLocation textureLocation, int x, int y, int width, int height, TextureUV uv, int textureWidth, int textureHeight, Color color) {
