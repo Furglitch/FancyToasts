@@ -1,7 +1,6 @@
 package net.bivrik.fancytoasts.platform.utility;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import net.bivrik.fancytoasts.core.Debug;
 import net.bivrik.fancytoasts.utility.TextureUV;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -60,22 +59,19 @@ public class GuiContext {
     }
 
     public void drawCenteredText(Font font, FormattedCharSequence text, int x, int y, Color color) {
-        drawText(font, text, x - font.width(text) / 2, y, color);
+        if (color.isTransparent()) {
+            return;
+        }
+
+        guiGraphics.drawCenteredString(font, text, x, y, color.toARGB());
     }
 
     public void drawTexture(RenderPipeline pipeline, ResourceLocation textureLocation, int x, int y, int width, int height, TextureUV uv, int textureWidth, int textureHeight, Color color) {
         if (color.isTransparent()) {
-            Debug.info("Texture: {}; Color: TRANSPARENT", textureLocation);
             return;
         }
 
-        if (color.isWhite()) {
-            guiGraphics.blit(pipeline, textureLocation, x, y, uv.u(), uv.v(), width, height, textureWidth, textureHeight);
-            Debug.info("Texture: {}; Color: none", textureLocation);
-        } else {
-            guiGraphics.blit(pipeline, textureLocation, x, y, uv.u(), uv.v(), width, height, textureWidth, textureHeight, color.toARGB());
-            Debug.info("Texture: {}; Color: ARGB", textureLocation);
-        }
+        guiGraphics.blit(pipeline, textureLocation, x, y, uv.u(), uv.v(), width, height, textureWidth, textureHeight, color.toARGB());
     }
 
     public void drawTexture(RenderPipeline pipeline, ResourceLocation textureLocation, int x, int y, int width, int height, TextureUV uv, int textureWidth, int textureHeight) {
@@ -84,17 +80,10 @@ public class GuiContext {
 
     public void drawGUITexture(ResourceLocation textureLocation, int x, int y, int width, int height, TextureUV uv, int textureWidth, int textureHeight, Color color) {
         if (color.isTransparent()) {
-            Debug.info("GUI Texture: {}; Color: TRANSPARENT", textureLocation);
             return;
         }
 
-        if (color.isWhite()) {
-            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, textureLocation, x, y, uv.u(), uv.v(), width, height, textureWidth, textureHeight);
-            Debug.info("GUI Texture: {}; Color: none", textureLocation);
-        } else {
-            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, textureLocation, x, y, uv.u(), uv.v(), width, height, textureWidth, textureHeight, color.toARGB());
-            Debug.info("GUI Texture: {}; Color: ARGB", textureLocation);
-        }
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, textureLocation, x, y, uv.u(), uv.v(), width, height, textureWidth, textureHeight, color.toARGB());
     }
 
     public void drawGUITexture(ResourceLocation textureLocation, int x, int y, int width, int height, TextureUV uv, int textureWidth, int textureHeight) {
@@ -107,17 +96,10 @@ public class GuiContext {
 
     public void drawSprite(ResourceLocation spriteLocation, int x, int y, int width, int height, Color color) {
         if (color.isTransparent()) {
-            Debug.info("Sprite: {}; Color: TRANSPARENT", spriteLocation);
             return;
         }
 
-        if (color.isWhite()) {
-            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, spriteLocation, x, y, width, height);
-            Debug.info("Sprite: {}; Color: none", spriteLocation);
-        } else {
-            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, spriteLocation, x, y, width, height, color.toARGB());
-            Debug.info("Sprite: {}; Color: ARGB", spriteLocation);
-        }
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, spriteLocation, x, y, width, height, color.toARGB());
     }
 
     public void drawSprite(ResourceLocation spriteLocation, int x, int y, int width, int height) {
@@ -126,11 +108,9 @@ public class GuiContext {
 
     public void fill(int x, int y, int width, int height, Color color) {
         if (color.isTransparent()) {
-            Debug.info("Fill: {}; Color: TRANSPARENT", color);
             return;
         }
 
         guiGraphics.fill(x, y, x + width, y + height, color.toARGB());
-        Debug.info("Fill: {}; Color: ARGB", color);
     }
 }

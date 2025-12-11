@@ -42,13 +42,13 @@ public class OldlikeAnimation extends FancyToastAnimation {
             context.push();
             Color color = Color.WHITE;
             if (bannerAppearProgress != 1) {
-                color.withAlpha(MathEasing.easeOutLerp(0.0F, 1.0F, bannerAppearProgress));
+                color = color.withAlpha(MathEasing.easeOutLerp(0.0F, 1.0F, bannerAppearProgress));
 
                 float x = MathEasing.easeOutLerp(35.0F, 0, bannerAppearProgress);
                 context.translate(x, 0);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-                color.withAlpha(MathEasing.easeInLerp(1.0F, 0, fadeOutProgress));
+                color = color.withAlpha(MathEasing.easeInLerp(1.0F, 0, fadeOutProgress));
             }
             float sinY = this.sinusoidLoop(time, 1.14f, 2.0f);
             context.translate(0, sinY + 5);
@@ -60,13 +60,13 @@ public class OldlikeAnimation extends FancyToastAnimation {
             context.push();
             Color color = Color.WHITE;
             if (backgroundAppearProgress != 1) {
-                color.withAlpha(MathEasing.easeOutLerp(0, 1.0F, backgroundAppearProgress));
+                color = color.withAlpha(MathEasing.easeOutLerp(0, 1.0F, backgroundAppearProgress));
 
                 float x = MathEasing.easeOutLerp(35.0F, 0, backgroundAppearProgress);
                 context.translate(x, 0);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-                color.withAlpha(MathEasing.easeInLerp(1.0F, 0, fadeOutProgress));
+                color = color.withAlpha(MathEasing.easeInLerp(1.0F, 0, fadeOutProgress));
             }
             this.drawBackground(context, color);
             context.pop();
@@ -78,11 +78,11 @@ public class OldlikeAnimation extends FancyToastAnimation {
             int x = 77;
             float scale = 1;
             if (iconAppearProgress != 1) {
-                color.withAlpha(MathEasing.easeOutLerp(0.0F, 1.0F, iconAppearProgress));
+                color = color.withAlpha(MathEasing.easeOutLerp(0.0F, 1.0F, iconAppearProgress));
                 x = MathEasing.easeOutLerp(115, 77, iconAppearProgress);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-                color.withAlpha(MathEasing.easeInLerp(1.0F, 0, fadeOutProgress));
+                color = color.withAlpha(MathEasing.easeInLerp(1.0F, 0, fadeOutProgress));
                 scale = MathEasing.easeInLerp(1.0F, 0, fadeOutProgress);
             }
             context.translate(x, 11);

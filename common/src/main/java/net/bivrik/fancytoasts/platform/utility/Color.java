@@ -1,16 +1,27 @@
 package net.bivrik.fancytoasts.platform.utility;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Represent an ARGB color
  */
-public record Color(int alpha, int red, int green, int blue) {
-    public Color(int alpha, int red, int green, int blue) {
+public final class Color {
+    private final int alpha;
+    private final int red;
+    private final int green;
+    private final int blue;
+
+    private final int argb;
+
+    private Color(int alpha, int red, int green, int blue) {
         this.alpha = clamp(alpha);
         this.red = clamp(red);
         this.green = clamp(green);
         this.blue = clamp(blue);
+
+        this.argb = toARGB();
+    }
+
+    public Color() {
+        this(255, 255, 255, 255);
     }
 
     public Color(float a, float r, float g, float b) {
@@ -29,45 +40,49 @@ public record Color(int alpha, int red, int green, int blue) {
      * @return 32-bit integer representation of color
      */
     public int toARGB() {
-        return alpha << 24 | red << 16 | green << 8 | blue;
+        if (argb == 0) {
+            return alpha << 24 | red << 16 | green << 8 | blue;
+        }
+
+        return argb;
     }
 
-    public Color withAlpha(float a) {
+    public Color withAlpha(int a) {
         return new Color(clamp(a), red, green, blue);
     }
 
-    public Color multiplyAlpha(float a) {
-        return withAlpha(alpha * a);
+    public Color withAlpha(float a) {
+        return withAlpha(floatToInt(a, false));
     }
 
-    public boolean isWhite() {
-        return equals(Color.WHITE);
+    public Color multiplyAlpha(float a) {
+        return withAlpha((int) (alpha * a + 0.5f));
     }
 
     public boolean isOpaque() {
-        return isMax(alpha);
+        return alpha == 255;
     }
 
     public boolean isTransparent() {
-        return isMin(alpha);
+        return alpha == 0;
     }
 
     @Override
-    public @NotNull String toString() {
+    public String toString() {
         return getClass().getSimpleName() + String.format("{alpha='%s', red='%s', green='%s', blue='%s'}", alpha, red, green, blue);
     }
 
     @Override
     public boolean equals(Object other) {
-        if (!(other instanceof Color color)) return false;
-        return other == this || color.toARGB() == toARGB();
+        if (!(other instanceof Color)) return false;
+        return other == this || other.hashCode() == toARGB();
     }
 
     @Override
     public int hashCode() {
         return toARGB();
     }
-    
+
     // Static methods
 
     /**
@@ -75,56 +90,40 @@ public record Color(int alpha, int red, int green, int blue) {
      *
      * @param from initial color
      * @param to   final color
-     * @param time given for transformation
+     * @param delta given for transformation
      * @return new lerped color
      */
-    public static Color lerp(Color from, Color to, float time) {
-        time = Math.clamp(time, 0.0f, 1.0f);
+    public static Color lerp(Color from, Color to, float delta) {
+        delta = Math.clamp(delta, 0.0f, 1.0f);
         return new Color(
-                from.alpha + (to.alpha - from.alpha) * time,
-                from.red + (to.red - from.red) * time,
-                from.green + (to.green - from.green) * time,
-                from.blue + (to.blue - from.blue) * time
+                lerp(from.alpha, to.alpha, delta),
+                lerp(from.red, to.red, delta),
+                lerp(from.green, to.green, delta),
+                lerp(from.blue, to.blue, delta)
         );
     }
 
+    private static float lerp(int start, int end, float delta) {
+        if (start == end) return start;
+
+        return start + (end - start) * delta;
+    }
+
     public static Color fromARGB(int argb) {
-        float a = (argb >> 24) & 0xFF;
-        float r = (argb >> 16) & 0xFF;
-        float g = (argb >> 8) & 0xFF;
-        float b = argb & 0xFF;
+        int a = (argb >> 24) & 0xFF;
+        int r = (argb >> 16) & 0xFF;
+        int g = (argb >> 8) & 0xFF;
+        int b = argb & 0xFF;
 
         return new Color(a, r, g, b);
     }
 
-    public static boolean isMax(float colorChannel) {
-        return colorChannel == 1.0f;
-    }
-
-    public static boolean isMin(float colorChannel) {
-        return colorChannel == 0.0f;
-    }
-
-    public static boolean isMax(int colorChannel) {
-        return colorChannel == 255;
-    }
-
-    public static boolean isMin(int colorChannel) {
-        return colorChannel == 0;
-    }
-
     public static int clamp(int colorChannel) {
-        if (colorChannel < 0 || colorChannel > 255) {
-            return Math.clamp(colorChannel, 0, 255);
-        }
-        return colorChannel;
+        return Math.clamp(colorChannel, 0, 255);
     }
 
     public static float clamp(float colorChannel) {
-        if (colorChannel < 0.0f || colorChannel > 1.0f) {
-            return Math.clamp(colorChannel, 0.0f, 1.0f);
-        }
-        return colorChannel;
+        return Math.clamp(colorChannel, 0.0f, 1.0f);
     }
 
     public static int floatToInt(float channel, boolean doClamp) {
