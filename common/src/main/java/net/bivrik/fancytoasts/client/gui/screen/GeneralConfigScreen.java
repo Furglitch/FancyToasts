@@ -10,7 +10,7 @@ import net.bivrik.fancytoasts.client.toast.Appearance;
 import net.bivrik.fancytoasts.core.Constants;
 import net.bivrik.fancytoasts.core.event.GeneralConfigDataEvent;
 import net.bivrik.fancytoasts.platform.Services;
-import net.bivrik.fancytoasts.platform.utility.Colors;
+import net.bivrik.fancytoasts.platform.utility.Color;
 import net.bivrik.fancytoasts.platform.utility.Components;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.bivrik.fancytoasts.platform.utility.ResourceLocations;
@@ -144,8 +144,8 @@ public class GeneralConfigScreen extends UniversalScreen {
 
     private void changeToastAnchor(ToastAnchor anchor) {
         generalConfigData.setToastAnchor(anchor);
-        offsetXEditBox.setIntegerValue(anchor.getBaseOffsetX());
-        offsetYEditBox.setIntegerValue(anchor.getBaseOffsetY());
+        offsetXEditBox.setIntegerValue((int) anchor.getBaseOffset().x);
+        offsetYEditBox.setIntegerValue((int) anchor.getBaseOffset().y);
     }
 
     private void confirmResetting() {
@@ -195,8 +195,8 @@ public class GeneralConfigScreen extends UniversalScreen {
 
         int offsetX = 7;
         int offsetY = 5;
-        guiGraphics.drawString(this.font, "x:", offsetXEditBox.getX() - offsetX, offsetXEditBox.getY() + offsetY, Colors.LIGHT_GRAY);
-        guiGraphics.drawString(this.font, "y:", offsetYEditBox.getX() - offsetX, offsetYEditBox.getY() + offsetY, Colors.LIGHT_GRAY);
+        guiGraphics.drawString(this.font, "x:", offsetXEditBox.getX() - offsetX, offsetXEditBox.getY() + offsetY, Color.LIGHT_GRAY.toARGB());
+        guiGraphics.drawString(this.font, "y:", offsetYEditBox.getX() - offsetX, offsetYEditBox.getY() + offsetY, Color.LIGHT_GRAY.toARGB());
     }
 
     private void drawSavedFeedback(GuiGraphics guiGraphics, int x, int y) {
@@ -208,7 +208,8 @@ public class GeneralConfigScreen extends UniversalScreen {
         float appearanceLerp = MathEasing.easeOutLerp(0.0f, 1.0f, Appearance.getProgress(time, 500, 0));
         float disappearanceLerp = Appearance.getProgress(time, 500, 400);
 
-        int color = Colors.alpha(appearanceLerp - disappearanceLerp, Colors.YELLOW);
+        float alpha = appearanceLerp - disappearanceLerp;
+        int color = Color.YELLOW.withAlpha(alpha).toARGB();
 
         guiGraphics.drawString(this.font, SAVED_LABEL, x, y, color);
 

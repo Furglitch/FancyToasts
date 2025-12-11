@@ -2,9 +2,9 @@ package net.bivrik.fancytoasts.client.gui;
 
 import net.bivrik.fancytoasts.core.Debug;
 import net.bivrik.fancytoasts.client.toast.DisplayData;
+import net.bivrik.fancytoasts.platform.utility.Color;
 import net.bivrik.fancytoasts.platform.utility.Components;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
-import net.bivrik.fancytoasts.platform.utility.Colors;
 import net.bivrik.fancytoasts.platform.utility.ResourceLocations;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -44,16 +44,16 @@ public class InformationList extends AbstractSelectionList<InformationList.Entry
 
         clear();
 
-        this.addLine(displayData.getDisplayName(), Colors.YELLOW);
+        this.addLine(displayData.getDisplayName(), Color.YELLOW.toARGB());
         if (isConfig) {
-            addLine(CUSTOM_LABEL, Colors.RED);
+            addLine(CUSTOM_LABEL, Color.RED.toARGB());
         }
         addSpace();
-        addLine(AUTHOR_LABEL, Colors.WHITE);
-        addLine(displayData.getAuthor(), Colors.LIGHT_GRAY);
+        addLine(AUTHOR_LABEL, Color.WHITE.toARGB());
+        addLine(displayData.getAuthor(), Color.LIGHT_GRAY.toARGB());
         addSpace();
-        addLine(DESCRIPTION_LABEL, Colors.WHITE);
-        addLine(displayData.getDisplayDescription(), Colors.LIGHT_GRAY);
+        addLine(DESCRIPTION_LABEL, Color.WHITE.toARGB());
+        addLine(displayData.getDisplayDescription(), Color.LIGHT_GRAY.toARGB());
 
         acceptLines();
     }

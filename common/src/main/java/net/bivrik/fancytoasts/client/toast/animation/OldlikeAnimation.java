@@ -2,6 +2,7 @@ package net.bivrik.fancytoasts.client.toast.animation;
 
 import net.bivrik.fancytoasts.client.toast.AnimationSetup;
 import net.bivrik.fancytoasts.client.toast.Appearance;
+import net.bivrik.fancytoasts.platform.utility.Color;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.bivrik.fancytoasts.utility.MathEasing;
 import net.minecraft.client.Minecraft;
@@ -39,56 +40,56 @@ public class OldlikeAnimation extends FancyToastAnimation {
 
         if (bannerAppearProgress > 0) {
             context.push();
-            float alpha = 1;
+            Color color = Color.WHITE;
             if (bannerAppearProgress != 1) {
-                alpha = MathEasing.easeOutLerp(0.0F, 1.0F, bannerAppearProgress);
+                color.withAlpha(MathEasing.easeOutLerp(0.0F, 1.0F, bannerAppearProgress));
 
                 float x = MathEasing.easeOutLerp(35.0F, 0, bannerAppearProgress);
                 context.translate(x, 0);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-                alpha = MathEasing.easeInLerp(1.0F, 0, fadeOutProgress);
+                color.withAlpha(MathEasing.easeInLerp(1.0F, 0, fadeOutProgress));
             }
             float sinY = this.sinusoidLoop(time, 1.14f, 2.0f);
             context.translate(0, sinY + 5);
-            this.drawBanner(context, alpha);
+            this.drawBanner(context, color);
             context.pop();
         }
 
         if (backgroundAppearProgress > 0) {
             context.push();
-            float alpha = 1;
+            Color color = Color.WHITE;
             if (backgroundAppearProgress != 1) {
-                alpha = MathEasing.easeOutLerp(0, 1.0F, backgroundAppearProgress);
+                color.withAlpha(MathEasing.easeOutLerp(0, 1.0F, backgroundAppearProgress));
 
                 float x = MathEasing.easeOutLerp(35.0F, 0, backgroundAppearProgress);
                 context.translate(x, 0);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-                alpha = MathEasing.easeInLerp(1.0F, 0, fadeOutProgress);
+                color.withAlpha(MathEasing.easeInLerp(1.0F, 0, fadeOutProgress));
             }
-            this.drawBackground(context, alpha);
+            this.drawBackground(context, color);
             context.pop();
         }
 
         if (iconAppearProgress > 0) {
             context.push();
-            float alpha = 1;
+            Color color = Color.WHITE;
             int x = 77;
             float scale = 1;
             if (iconAppearProgress != 1) {
-                alpha = MathEasing.easeOutLerp(0.0F, 1.0F, iconAppearProgress);
+                color.withAlpha(MathEasing.easeOutLerp(0.0F, 1.0F, iconAppearProgress));
                 x = MathEasing.easeOutLerp(115, 77, iconAppearProgress);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-                alpha = MathEasing.easeInLerp(1.0F, 0, fadeOutProgress);
+                color.withAlpha(MathEasing.easeInLerp(1.0F, 0, fadeOutProgress));
                 scale = MathEasing.easeInLerp(1.0F, 0, fadeOutProgress);
             }
             context.translate(x, 11);
             context.scaleAround(scale, 68 + 13, 14);
             float cosRotation = this.cosineLoop(time, 1.6f, 0.2f);
             context.rotateAround(cosRotation, 68 + 13, 14);
-            this.drawIcon(context, alpha);
+            this.drawIcon(context, color);
             context.pop();
         }
 

@@ -7,10 +7,7 @@ import net.bivrik.fancytoasts.core.Constants;
 import net.bivrik.fancytoasts.core.Managers;
 import net.bivrik.fancytoasts.core.event.ToastsFilteringDataEvent;
 import net.bivrik.fancytoasts.platform.Services;
-import net.bivrik.fancytoasts.platform.utility.Colors;
-import net.bivrik.fancytoasts.platform.utility.Components;
-import net.bivrik.fancytoasts.platform.utility.GuiContext;
-import net.bivrik.fancytoasts.platform.utility.ResourceLocations;
+import net.bivrik.fancytoasts.platform.utility.*;
 import net.bivrik.fancytoasts.utility.MathEasing;
 import net.bivrik.fancytoasts.utility.TextureUV;
 import net.bivrik.fancytoasts.utility.file.Paths;
@@ -165,7 +162,8 @@ public class ToastsFilteringScreen extends UniversalScreen {
         float appearanceLerp = MathEasing.easeOutLerp(0.0f, 1.0f, Appearance.getProgress(time, 500, 0));
         float disappearanceLerp = Appearance.getProgress(time, 500, 400);
 
-        int color = Colors.alpha(appearanceLerp - disappearanceLerp, Colors.YELLOW);
+        float alpha = appearanceLerp - disappearanceLerp;
+        int color = Color.YELLOW.withAlpha(alpha).toARGB();
 
         guiGraphics.drawString(this.font, SAVED_LABEL, x, y, color);
 

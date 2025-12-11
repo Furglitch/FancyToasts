@@ -2,8 +2,6 @@ package net.bivrik.fancytoasts.client.toast.animation;
 
 import net.bivrik.fancytoasts.client.toast.AnimationSetup;
 import net.bivrik.fancytoasts.client.toast.Appearance;
-import net.bivrik.fancytoasts.core.Debug;
-import net.bivrik.fancytoasts.platform.utility.Colors;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.bivrik.fancytoasts.utility.MathEasing;
 import net.minecraft.client.Minecraft;
@@ -115,8 +113,8 @@ public class QuirkyAnimation extends FancyToastAnimation {
             return;
         }
 
+        int descriptionColor = displayInfo.getAdvancementType().getSecondaryColor().withAlpha(alpha).toARGB();
         int centerToastX = toastWidth / 2;
-        int descriptionColor = Colors.alpha(alpha, displayInfo.getAdvancementType().getSecondaryColor());
 
         guiGraphics.drawCenteredString(minecraft.font, descriptionLines.get(0), centerToastX, 38, descriptionColor);
         if (descriptionLines.size() > 1) {

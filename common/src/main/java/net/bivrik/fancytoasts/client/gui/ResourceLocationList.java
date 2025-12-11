@@ -2,8 +2,8 @@ package net.bivrik.fancytoasts.client.gui;
 
 import net.bivrik.fancytoasts.core.Constants;
 import net.bivrik.fancytoasts.core.Debug;
+import net.bivrik.fancytoasts.platform.utility.Color;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
-import net.bivrik.fancytoasts.platform.utility.Colors;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -259,17 +259,17 @@ public class ResourceLocationList extends ObjectSelectionList<ResourceLocationLi
 
         @Override
         public void renderContent(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, boolean isHovering, float partialTick) {
-            int mainColor = Colors.WHITE;
-            int secondColor = Colors.LIGHT_GRAY;
+            int mainColor = Color.WHITE.toARGB();
+            int secondColor = Color.LIGHT_GRAY.toARGB();
 
             if (isFocused()) {
-                mainColor = Colors.YELLOW;
-                secondColor = Colors.PURPLE;
+                mainColor = Color.YELLOW.toARGB();
+                secondColor = Color.PURPLE.toARGB();
             }
             else if (isHovering) {
                 var context = new GuiContext(guiGraphics);
-                context.fill(x(), y(), width(), height(), Colors.alpha(16, Colors.WHITE));
-                context.fill(x() + 1, y() + 1, width() - 2, height() - 2, Colors.alpha(64, Colors.BLACK));
+                context.fill(x(), y(), width(), height(), Color.WHITE.withAlpha(0.05f));
+                context.fill(x() + 1, y() + 1, width() - 2, height() - 2, Color.BLACK.withAlpha(0.35f));
             }
 
             int nameX = x() + 3;
@@ -285,7 +285,7 @@ public class ResourceLocationList extends ObjectSelectionList<ResourceLocationLi
             }
 
             if (isConfig) {
-                guiGraphics.drawString(font, Component.literal("c"), x() + width() - 10, nameY, Colors.LIGHT_GRAY);
+                guiGraphics.drawString(font, Component.literal("c"), x() + width() - 10, nameY, Color.LIGHT_GRAY.toARGB());
             }
         }
     }

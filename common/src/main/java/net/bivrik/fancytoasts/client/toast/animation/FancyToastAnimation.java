@@ -3,11 +3,11 @@ package net.bivrik.fancytoasts.client.toast.animation;
 import net.bivrik.fancytoasts.client.config.ToastScreenBehavior;
 import net.bivrik.fancytoasts.client.toast.AnimationSetup;
 import net.bivrik.fancytoasts.core.event.GeneralConfigDataEvent;
+import net.bivrik.fancytoasts.platform.utility.Color;
 import net.bivrik.fancytoasts.utility.TypeBasedUVs;
 import net.bivrik.fancytoasts.core.Managers;
 import net.bivrik.fancytoasts.platform.utility.ToastDisplayInfo;
 import net.bivrik.fancytoasts.utility.TextureUV;
-import net.bivrik.fancytoasts.platform.utility.Colors;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -20,6 +20,8 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public abstract class FancyToastAnimation {
+    private final static float TIME_SCALE = 0.00125f;
+
     private final Consumer<GeneralConfigDataEvent> generalConfigDataEventConsumer;
 
     private List<FormattedCharSequence> titleLines;
@@ -35,8 +37,8 @@ public abstract class FancyToastAnimation {
     private TextureUV backgroundUV;
     private TextureUV plaqueUV;
 
-    private float guiAlpha = 1.0f;
     private boolean shouldTransparentToast;
+    private float guiAlpha = 1.0f;
     private float loopsStrength;
     private float loopsSpeed;
 
@@ -98,28 +100,30 @@ public abstract class FancyToastAnimation {
 
     public abstract int getToastSoundTiming();
 
-    protected void drawIcon(GuiContext guiContext, float alpha) {
-        guiContext.drawGUITexture(textureLocation, 68, 0, 26, 26, typeBasedUVs.frame(), getColor(alpha));
+    protected void drawIcon(GuiContext guiContext, Color color) {
+        color.multiplyAlpha(guiAlpha);
+        guiContext.drawGUITexture(textureLocation, 68, 0, 26, 26, typeBasedUVs.frame(), color);
         guiContext.guiGraphics().renderFakeItem(displayInfo.getIcon(), 73, 5);
     }
     protected void drawIcon(GuiContext guiContext) {
-        drawIcon(guiContext, 1);
+        drawIcon(guiContext, Color.WHITE);
     }
 
-    protected void drawBanner(GuiContext guiContext, float alpha) {
-        guiContext.drawGUITexture(textureLocation, 0, 5, 162, 14, typeBasedUVs.banner(), getColor(alpha));
+    protected void drawBanner(GuiContext guiContext, Color color) {
+        color.multiplyAlpha(guiAlpha);
+        guiContext.drawGUITexture(textureLocation, 0, 5, 162, 14, typeBasedUVs.banner(), color);
     }
     protected void drawBanner(GuiContext guiContext) {
-        drawBanner(guiContext, 1);
+        drawBanner(guiContext, Color.WHITE);
     }
 
-    protected void drawBackground(GuiContext guiContext, float alpha) {
-        int color = getColor(alpha);
+    protected void drawBackground(GuiContext guiContext, Color color) {
+        color.multiplyAlpha(guiAlpha);
         guiContext.drawGUITexture(textureLocation, 0, 20, 162, 40, backgroundUV, color);
         guiContext.drawGUITexture(textureLocation, 144, 56, 9, 14, plaqueUV, color);
     }
     protected void drawBackground(GuiContext guiContext) {
-        drawBackground(guiContext, 1);
+        drawBackground(guiContext, Color.WHITE);
     }
 
     protected void drawTitle(GuiGraphics guiGraphics, float alpha) {
@@ -127,8 +131,8 @@ public abstract class FancyToastAnimation {
             return;
         }
 
+        int titleColor = displayInfo.getAdvancementType().getMainColor().withAlpha(alpha).toARGB();
         int toastCenterX = toastWidth / 2;
-        int titleColor = Colors.alpha(alpha, displayInfo.getAdvancementType().getMainColor());
         FormattedCharSequence titleLine = titleLines.getFirst();
 
         if (titleLines.size() == 1) {
@@ -147,7 +151,7 @@ public abstract class FancyToastAnimation {
             return;
         }
 
-        int descriptionColor = Colors.alpha(alpha, displayInfo.getAdvancementType().getSecondaryColor());
+        int descriptionColor = displayInfo.getAdvancementType().getSecondaryColor().withAlpha(alpha).toARGB();
 
         guiGraphics.drawString(minecraft.font, descriptionLines.get(0), 8, 38, descriptionColor);
         if (descriptionLines.size() > 1) {
@@ -163,8 +167,6 @@ public abstract class FancyToastAnimation {
         drawDescription(guiGraphics, 1);
     }
 
-    private final static float TIME_SCALE = 0.00125f;
-
     protected float sinusoidLoop(long time, float speed, float strength) {
         float scaledTime = time * TIME_SCALE * speed * loopsSpeed;
         return (float) Math.sin(scaledTime) * strength * loopsStrength;
@@ -173,9 +175,5 @@ public abstract class FancyToastAnimation {
     protected float cosineLoop(long time, float speed, float strength) {
         float scaledTime = time * TIME_SCALE * speed * loopsSpeed;
         return (float) Math.cos(scaledTime) * strength * loopsStrength;
-    }
-
-    protected int getColor(float alpha) {
-        return Colors.alpha(guiAlpha * alpha, Colors.WHITE);
     }
 }

@@ -12,7 +12,7 @@ import net.bivrik.fancytoasts.client.gui.ResourceLocationFilter;
 import net.bivrik.fancytoasts.client.gui.ResourceLocationList;
 import net.bivrik.fancytoasts.client.gui.SettingType;
 import net.bivrik.fancytoasts.core.Managers;
-import net.bivrik.fancytoasts.platform.utility.Colors;
+import net.bivrik.fancytoasts.platform.utility.Color;
 import net.bivrik.fancytoasts.platform.utility.Components;
 import net.bivrik.fancytoasts.platform.utility.FancyToastType;
 import net.bivrik.fancytoasts.utility.MathEasing;
@@ -184,7 +184,8 @@ public class ToastConfigScreen extends UniversalScreen {
         float appearanceLerp = MathEasing.easeOutLerp(0.0f, 1.0f, Appearance.getProgress(time, 500, 0));
         float disappearanceLerp = Appearance.getProgress(time, 500, 400);
 
-        int color = Colors.alpha(appearanceLerp - disappearanceLerp, Colors.YELLOW);
+        float alpha = appearanceLerp - disappearanceLerp;
+        int color = Color.YELLOW.withAlpha(alpha).toARGB();
 
         guiGraphics.drawString(this.font, SAVED_LABEL, x, y, color);
 
