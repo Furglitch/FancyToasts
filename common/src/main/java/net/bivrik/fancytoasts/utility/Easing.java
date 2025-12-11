@@ -10,46 +10,36 @@ public enum Easing {
     EASE_IN_OUT(t -> (float) (Math.pow(t, 2) * (3.0f - 2.0f * t))),
     ELASTIC_OUT(t -> (float) (1 - Math.pow(2, -10 * t) * Math.cos(t * Math.PI * 4)));
 
-    private final MathEasing mathEasing;
+    private final MathEasing deltaEasing;
 
-    Easing(MathEasing mathEasing) {
-        this.mathEasing = mathEasing;
+    Easing(MathEasing deltaEasing) {
+        this.deltaEasing = deltaEasing;
     }
 
-    public float applyTo(float delta) {
-        return mathEasing.applyTo(delta);
+    private float apply(float delta) {
+        return deltaEasing.apply(delta);
     }
 
-    public static float lerp(float start, float end, float delta, Easing easing) {
+    private float clamp(float delta) {
+        return Math.clamp(delta, 0.0f, 1.0f);
+    }
+
+    public float lerp(float start, float end, float delta) {
         if (start == end) return end;
 
-        float easedDelta = easing.applyTo(clamp(delta));
-
+        float easedDelta = apply(clamp(delta));
         return start + (end - start) * easedDelta;
     }
 
-    public static float lerp(float start, float end, float delta) {
-        return lerp(start, end, delta, Easing.LINEAR);
-    }
-
-    public static int lerp(int start, int end, float delta, Easing easing) {
+    public int lerp(int start, int end, float delta) {
         if (start == end) return end;
 
-        float easedDelta = easing.applyTo(clamp(delta));
-
+        float easedDelta = apply(clamp(delta));
         return start + (int) ((end - start) * easedDelta + 0.5f);
-    }
-
-    public static float lerp(int start, int end, float delta) {
-        return lerp(start, end, delta, Easing.LINEAR);
-    }
-
-    private static float clamp(float delta) {
-        return Math.clamp(delta, 0.0f, 1.0f);
     }
 
     @FunctionalInterface
     interface MathEasing {
-        float applyTo(float delta);
+        float apply(float delta);
     }
 }

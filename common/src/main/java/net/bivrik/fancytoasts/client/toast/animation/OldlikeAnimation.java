@@ -4,7 +4,7 @@ import net.bivrik.fancytoasts.client.toast.AnimationSetup;
 import net.bivrik.fancytoasts.client.toast.Appearance;
 import net.bivrik.fancytoasts.platform.utility.Color;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
-import net.bivrik.fancytoasts.utility.MathEasing;
+import net.bivrik.fancytoasts.utility.Easing;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 
@@ -17,6 +17,9 @@ public class OldlikeAnimation extends FancyToastAnimation {
 
     private final int FADE_OUT_DURATION = 3000;
     private final int DURATION = 3500 + FADE_OUT_DURATION;
+
+    private final Easing fadeOutEasing = Easing.EASE_IN;
+    private final Easing textEasing = Easing.ELASTIC_OUT;
 
     @Override
     public void setup(AnimationSetup setup, Minecraft minecraft, int toastWidth, int toastHeight) {
@@ -42,13 +45,15 @@ public class OldlikeAnimation extends FancyToastAnimation {
             context.push();
             Color color = Color.WHITE;
             if (bannerAppearProgress != 1) {
-                color = color.withAlpha(MathEasing.easeOutLerp(0.0F, 1.0F, bannerAppearProgress));
+                Easing easing = Easing.EASE_OUT;
 
-                float x = MathEasing.easeOutLerp(35.0F, 0, bannerAppearProgress);
+                color = color.withAlpha(easing.lerp(0.0f, 1.0f, bannerAppearProgress));
+
+                float x = easing.lerp(35.0f, 0.0f, bannerAppearProgress);
                 context.translate(x, 0);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-                color = color.withAlpha(MathEasing.easeInLerp(1.0F, 0, fadeOutProgress));
+                color = color.withAlpha(fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress));
             }
             float sinY = this.sinusoidLoop(time, 1.14f, 2.0f);
             context.translate(0, sinY + 5);
@@ -60,13 +65,15 @@ public class OldlikeAnimation extends FancyToastAnimation {
             context.push();
             Color color = Color.WHITE;
             if (backgroundAppearProgress != 1) {
-                color = color.withAlpha(MathEasing.easeOutLerp(0, 1.0F, backgroundAppearProgress));
+                Easing easing = Easing.EASE_OUT;
 
-                float x = MathEasing.easeOutLerp(35.0F, 0, backgroundAppearProgress);
+                color = color.withAlpha(easing.lerp(0.0f, 1.0f, backgroundAppearProgress));
+
+                float x = easing.lerp(35.0f, 0.0f, backgroundAppearProgress);
                 context.translate(x, 0);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-                color = color.withAlpha(MathEasing.easeInLerp(1.0F, 0, fadeOutProgress));
+                color = color.withAlpha(fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress));
             }
             this.drawBackground(context, color);
             context.pop();
@@ -78,12 +85,12 @@ public class OldlikeAnimation extends FancyToastAnimation {
             int x = 77;
             float scale = 1;
             if (iconAppearProgress != 1) {
-                color = color.withAlpha(MathEasing.easeOutLerp(0.0F, 1.0F, iconAppearProgress));
-                x = MathEasing.easeOutLerp(115, 77, iconAppearProgress);
+                color = color.withAlpha(Easing.EASE_OUT.lerp(0.0f, 1.0f, iconAppearProgress));
+                x = Easing.EASE_OUT.lerp(115, 77, iconAppearProgress);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-                color = color.withAlpha(MathEasing.easeInLerp(1.0F, 0, fadeOutProgress));
-                scale = MathEasing.easeInLerp(1.0F, 0, fadeOutProgress);
+                color = color.withAlpha(fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress));
+                scale = fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress);
             }
             context.translate(x, 11);
             context.scaleAround(scale, 68 + 13, 14);
@@ -95,13 +102,13 @@ public class OldlikeAnimation extends FancyToastAnimation {
 
         float fadeOutTextAlpha = 0;
         if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-            fadeOutTextAlpha = MathEasing.easeInLerp(0, 1.0F, fadeOutProgress);
+            fadeOutTextAlpha = fadeOutEasing.lerp(0.0f, 1.0f, fadeOutProgress);
         }
 
         if (titleAppearProgress > 0) {
             context.push();
             if (titleAppearProgress != 1) {
-                int x = MathEasing.elasticEaseOutLerp(50, 0, titleAppearProgress);
+                int x = textEasing.lerp(50, 0, titleAppearProgress);
                 context.translate(x, 0);
             }
             this.drawTitle(context, titleAppearProgress - fadeOutTextAlpha);
@@ -111,7 +118,7 @@ public class OldlikeAnimation extends FancyToastAnimation {
         if (descriptionAppearProgress > 0) {
             context.push();
             if (descriptionAppearProgress != 1) {
-                int x = MathEasing.elasticEaseOutLerp(50, 0, descriptionAppearProgress);
+                int x = textEasing.lerp(50, 0, descriptionAppearProgress);
                 context.translate(x, 0);
             }
             this.drawDescription(context, descriptionAppearProgress - fadeOutTextAlpha);
