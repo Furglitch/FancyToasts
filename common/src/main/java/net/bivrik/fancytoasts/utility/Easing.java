@@ -10,32 +10,23 @@ public enum Easing {
     EASE_IN_OUT(t -> (float) (Math.pow(t, 2) * (3.0f - 2.0f * t))),
     ELASTIC_OUT(t -> (float) (1 - Math.pow(2, -10 * t) * Math.cos(t * Math.PI * 4)));
 
-    private final MathEasing deltaEasing;
+    private final MathEasing mathEasing;
 
-    Easing(MathEasing deltaEasing) {
-        this.deltaEasing = deltaEasing;
+    Easing(MathEasing mathEasing) {
+        this.mathEasing = mathEasing;
     }
 
-    private float apply(float delta) {
-        return deltaEasing.apply(delta);
-    }
-
-    private float clamp(float delta) {
-        return Math.clamp(delta, 0.0f, 1.0f);
+    public float applyEasing(float delta) {
+        float clampedDelta = Math.clamp(delta, 0.0f, 1.0f);
+        return mathEasing.apply(clampedDelta);
     }
 
     public float lerp(float start, float end, float delta) {
-        if (start == end) return end;
-
-        float easedDelta = apply(clamp(delta));
-        return start + (end - start) * easedDelta;
+        return Interpolation.lerp(start, end, delta, this);
     }
 
     public int lerp(int start, int end, float delta) {
-        if (start == end) return end;
-
-        float easedDelta = apply(clamp(delta));
-        return start + (int) ((end - start) * easedDelta + 0.5f);
+        return Interpolation.lerp(start, end, delta, this);
     }
 
     @FunctionalInterface

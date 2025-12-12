@@ -1,5 +1,8 @@
 package net.bivrik.fancytoasts.platform.utility;
 
+import net.bivrik.fancytoasts.utility.Easing;
+import net.bivrik.fancytoasts.utility.Interpolation;
+
 /**
  * Represent an ARGB color
  */
@@ -47,6 +50,22 @@ public final class Color {
         return argb;
     }
 
+    public int getAlpha() {
+        return alpha;
+    }
+
+    public int getRed() {
+        return red;
+    }
+
+    public int getGreen() {
+        return green;
+    }
+
+    public int getBlue() {
+        return blue;
+    }
+
     public Color withAlpha(int a) {
         return new Color(clamp(a), red, green, blue);
     }
@@ -67,6 +86,14 @@ public final class Color {
         return alpha == 0;
     }
 
+    public Color lerp(Color end, float delta, Easing easing) {
+        return Interpolation.lerp(this, end, delta, easing);
+    }
+
+    public Color lerp(Color end, float delta) {
+        return Interpolation.lerp(this, end, delta);
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + String.format("{alpha='%s', red='%s', green='%s', blue='%s'}", alpha, red, green, blue);
@@ -84,30 +111,6 @@ public final class Color {
     }
 
     // Static methods
-
-    /**
-     * Lerps from one color to another in given time
-     *
-     * @param from initial color
-     * @param to   final color
-     * @param delta given for transformation
-     * @return new lerped color
-     */
-    public static Color lerp(Color from, Color to, float delta) {
-        delta = Math.clamp(delta, 0.0f, 1.0f);
-        return new Color(
-                lerp(from.alpha, to.alpha, delta),
-                lerp(from.red, to.red, delta),
-                lerp(from.green, to.green, delta),
-                lerp(from.blue, to.blue, delta)
-        );
-    }
-
-    private static float lerp(int start, int end, float delta) {
-        if (start == end) return start;
-
-        return start + (end - start) * delta;
-    }
 
     public static Color fromARGB(int argb) {
         int a = (argb >> 24) & 0xFF;
