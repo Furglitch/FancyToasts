@@ -17,7 +17,7 @@ public enum Easing {
     }
 
     public float applyEasing(float delta) {
-        float clampedDelta = Math.clamp(delta, 0.0f, 1.0f);
+        float clampedDelta = FastMath.clamp(delta, 0.0f, 1.0f);
         return mathEasing.apply(clampedDelta);
     }
 
