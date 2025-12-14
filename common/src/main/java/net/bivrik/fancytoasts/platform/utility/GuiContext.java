@@ -1,7 +1,7 @@
 package net.bivrik.fancytoasts.platform.utility;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import net.bivrik.fancytoasts.utility.TextureUV;
+import net.bivrik.fancytoasts.core.Color;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -64,7 +64,7 @@ public class GuiContext {
     public void drawText(Font font, FormattedCharSequence text, int x, int y, Color color) {
         if (color.isTransparent()) return;
 
-        guiGraphics.drawString(font, text, x, y, color.toARGB());
+        guiGraphics.drawString(font, text, x, y, color.getARGB());
     }
 
     public void drawText(Font font, String text, int x, int y, Color color) {
@@ -78,7 +78,7 @@ public class GuiContext {
     public void drawCenteredText(Font font, FormattedCharSequence text, int x, int y, Color color) {
         if (color.isTransparent()) return;
 
-        guiGraphics.drawCenteredString(font, text, x, y, color.toARGB());
+        guiGraphics.drawCenteredString(font, text, x, y, color.getARGB());
     }
 
     public void drawCenteredText(Font font, String text, int x, int y, Color color) {
@@ -92,7 +92,7 @@ public class GuiContext {
     public void drawTexture(RenderPipeline pipeline, ResourceLocation textureLocation, int x, int y, int width, int height, TextureUV uv, int textureWidth, int textureHeight, Color color) {
         if (color.isTransparent()) return;
 
-        guiGraphics.blit(pipeline, textureLocation, x, y, uv.u(), uv.v(), width, height, textureWidth, textureHeight, color.toARGB());
+        guiGraphics.blit(pipeline, textureLocation, x, y, uv.u(), uv.v(), width, height, textureWidth, textureHeight, color.getARGB());
     }
 
     public void drawTexture(RenderPipeline pipeline, ResourceLocation textureLocation, int x, int y, int width, int height, TextureUV uv, int textureWidth, int textureHeight) {
@@ -102,7 +102,7 @@ public class GuiContext {
     public void drawGUITexture(ResourceLocation textureLocation, int x, int y, int width, int height, TextureUV uv, int textureWidth, int textureHeight, Color color) {
         if (color.isTransparent()) return;
 
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, textureLocation, x, y, uv.u(), uv.v(), width, height, textureWidth, textureHeight, color.toARGB());
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, textureLocation, x, y, uv.u(), uv.v(), width, height, textureWidth, textureHeight, color.getARGB());
     }
 
     public void drawGUITexture(ResourceLocation textureLocation, int x, int y, int width, int height, TextureUV uv, int textureWidth, int textureHeight) {
@@ -116,7 +116,7 @@ public class GuiContext {
     public void drawSprite(ResourceLocation spriteLocation, int x, int y, int width, int height, Color color) {
         if (color.isTransparent()) return;
 
-        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, spriteLocation, x, y, width, height, color.toARGB());
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, spriteLocation, x, y, width, height, color.getARGB());
     }
 
     public void drawSprite(ResourceLocation spriteLocation, int x, int y, int width, int height) {
@@ -126,6 +126,6 @@ public class GuiContext {
     public void fill(int x, int y, int width, int height, Color color) {
         if (color.isTransparent()) return;
 
-        guiGraphics.fill(x, y, x + width, y + height, color.toARGB());
+        guiGraphics.fill(x, y, x + width, y + height, color.getARGB());
     }
 }

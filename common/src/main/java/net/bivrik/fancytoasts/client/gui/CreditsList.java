@@ -1,7 +1,7 @@
 package net.bivrik.fancytoasts.client.gui;
 
+import net.bivrik.fancytoasts.core.Color;
 import net.bivrik.fancytoasts.core.manager.CreditsManager;
-import net.bivrik.fancytoasts.platform.utility.Color;
 import net.bivrik.fancytoasts.platform.utility.Components;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.minecraft.client.Minecraft;

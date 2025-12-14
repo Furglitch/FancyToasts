@@ -2,12 +2,12 @@ package net.bivrik.fancytoasts.client.toast.animation;
 
 import net.bivrik.fancytoasts.client.config.ToastScreenBehavior;
 import net.bivrik.fancytoasts.client.toast.AnimationSetup;
+import net.bivrik.fancytoasts.core.Color;
 import net.bivrik.fancytoasts.core.event.GeneralConfigDataEvent;
-import net.bivrik.fancytoasts.platform.utility.Color;
 import net.bivrik.fancytoasts.utility.TypeBasedUVs;
 import net.bivrik.fancytoasts.core.Managers;
 import net.bivrik.fancytoasts.platform.utility.ToastDisplayInfo;
-import net.bivrik.fancytoasts.utility.TextureUV;
+import net.bivrik.fancytoasts.platform.utility.TextureUV;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -99,10 +99,8 @@ public abstract class FancyToastAnimation {
     public abstract int getDuration();
 
     public abstract int getToastSoundTiming();
-
     protected void drawIcon(GuiContext guiContext, Color color) {
-        Color guiColor = color.multiplyAlpha(guiAlpha);
-        guiContext.drawGUITexture(textureLocation, 68, 0, 26, 26, typeBasedUVs.frame(), guiColor);
+        guiContext.drawGUITexture(textureLocation, 68, 0, 26, 26, typeBasedUVs.frame(), color.multiplyAlpha(guiAlpha));
         guiContext.guiGraphics().renderFakeItem(displayInfo.getIcon(), 73, 5);
     }
     protected void drawIcon(GuiContext guiContext) {
@@ -110,8 +108,7 @@ public abstract class FancyToastAnimation {
     }
 
     protected void drawBanner(GuiContext guiContext, Color color) {
-        Color guiColor = color.multiplyAlpha(guiAlpha);
-        guiContext.drawGUITexture(textureLocation, 0, 5, 162, 14, typeBasedUVs.banner(), guiColor);
+        guiContext.drawGUITexture(textureLocation, 0, 5, 162, 14, typeBasedUVs.banner(), color.multiplyAlpha(guiAlpha));
     }
     protected void drawBanner(GuiContext guiContext) {
         drawBanner(guiContext, Color.WHITE);

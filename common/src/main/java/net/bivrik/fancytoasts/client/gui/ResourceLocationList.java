@@ -2,7 +2,7 @@ package net.bivrik.fancytoasts.client.gui;
 
 import net.bivrik.fancytoasts.core.Constants;
 import net.bivrik.fancytoasts.core.Debug;
-import net.bivrik.fancytoasts.platform.utility.Color;
+import net.bivrik.fancytoasts.core.Color;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -257,19 +257,22 @@ public class ResourceLocationList extends ObjectSelectionList<ResourceLocationLi
             return super.getWidth() + 3;
         }
 
+        private static final Color HIGHLIGHT_OUTLINE_COLOR = Color.WHITE.withAlpha(0.05f);
+        private static final Color HIGHLIGHT_COLOR = Color.WHITE.withAlpha(0.35f);
+
         @Override
         public void renderContent(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, boolean isHovering, float partialTick) {
             Color mainColor = Color.WHITE;
-            Color secondColor = Color.LIGHT_GRAY;
+            Color secondaryColor = Color.LIGHT_GRAY;
             GuiContext context = new GuiContext(guiGraphics);
 
             if (isFocused()) {
                 mainColor = Color.YELLOW;
-                secondColor = Color.PURPLE;
+                secondaryColor = Color.PURPLE;
             }
             else if (isHovering) {
-                context.fill(x(), y(), width(), height(), Color.WHITE.withAlpha(0.05f));
-                context.fill(x() + 1, y() + 1, width() - 2, height() - 2, Color.BLACK.withAlpha(0.35f));
+                context.fill(x(), y(), width(), height(), HIGHLIGHT_OUTLINE_COLOR);
+                context.fill(x() + 1, y() + 1, width() - 2, height() - 2, HIGHLIGHT_COLOR);
             }
 
             int nameX = x() + 3;
@@ -280,7 +283,7 @@ public class ResourceLocationList extends ObjectSelectionList<ResourceLocationLi
                 context.drawText(font, nameFirstLine, nameX, nameY, mainColor);
             }
             else {
-                context.drawText(font, nameLines.get(1), nameX, nameY + 3, secondColor);
+                context.drawText(font, nameLines.get(1), nameX, nameY + 3, secondaryColor);
                 context.drawText(font, nameFirstLine, nameX, nameY - 3, mainColor);
             }
 

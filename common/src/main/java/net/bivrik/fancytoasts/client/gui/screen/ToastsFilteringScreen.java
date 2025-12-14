@@ -3,13 +3,15 @@ package net.bivrik.fancytoasts.client.gui.screen;
 import net.bivrik.fancytoasts.client.config.ConfigHandler;
 import net.bivrik.fancytoasts.client.config.data.ToastsFilteringData;
 import net.bivrik.fancytoasts.client.toast.Appearance;
+import net.bivrik.fancytoasts.core.Color;
 import net.bivrik.fancytoasts.core.Constants;
 import net.bivrik.fancytoasts.core.Managers;
 import net.bivrik.fancytoasts.core.event.ToastsFilteringDataEvent;
 import net.bivrik.fancytoasts.platform.Services;
 import net.bivrik.fancytoasts.platform.utility.*;
-import net.bivrik.fancytoasts.utility.MathEasing;
-import net.bivrik.fancytoasts.utility.TextureUV;
+import net.bivrik.fancytoasts.utility.Easing;
+import net.bivrik.fancytoasts.utility.Interpolation;
+import net.bivrik.fancytoasts.platform.utility.TextureUV;
 import net.bivrik.fancytoasts.utility.file.Paths;
 import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
@@ -159,7 +161,7 @@ public class ToastsFilteringScreen extends UniversalScreen {
         }
         long time = Util.getMillis() - savedFeedbackStartTime;
 
-        float appearanceLerp = MathEasing.easeOutLerp(0.0f, 1.0f, Appearance.getProgress(time, 500, 0));
+        float appearanceLerp = Interpolation.lerp(0.0f, 1.0f, Appearance.getProgress(time, 500, 0), Easing.EASE_OUT);
         float disappearanceLerp = Appearance.getProgress(time, 500, 400);
 
         float alpha = appearanceLerp - disappearanceLerp;

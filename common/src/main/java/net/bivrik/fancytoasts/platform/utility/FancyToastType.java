@@ -1,5 +1,6 @@
 package net.bivrik.fancytoasts.platform.utility;
 
+import net.bivrik.fancytoasts.core.Color;
 import net.minecraft.advancements.AdvancementType;
 import net.minecraft.network.chat.Component;
 

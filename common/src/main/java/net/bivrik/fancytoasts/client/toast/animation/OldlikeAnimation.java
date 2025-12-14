@@ -2,7 +2,7 @@ package net.bivrik.fancytoasts.client.toast.animation;
 
 import net.bivrik.fancytoasts.client.toast.AnimationSetup;
 import net.bivrik.fancytoasts.client.toast.Appearance;
-import net.bivrik.fancytoasts.platform.utility.Color;
+import net.bivrik.fancytoasts.core.Color;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.bivrik.fancytoasts.utility.Easing;
 import net.minecraft.client.Minecraft;
@@ -43,60 +43,60 @@ public class OldlikeAnimation extends FancyToastAnimation {
 
         if (bannerAppearProgress > 0) {
             context.push();
-            Color color = Color.WHITE;
+            Color bannerColor = Color.WHITE;
             if (bannerAppearProgress != 1) {
                 Easing easing = Easing.EASE_OUT;
 
-                color = color.withAlpha(easing.lerp(0.0f, 1.0f, bannerAppearProgress));
+                bannerColor = bannerColor.withAlpha(easing.lerp(0.0f, 1.0f, bannerAppearProgress));
 
                 float x = easing.lerp(35.0f, 0.0f, bannerAppearProgress);
                 context.translate(x, 0);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-                color = color.withAlpha(fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress));
+                bannerColor = bannerColor.withAlpha(fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress));
             }
             float sinY = this.sinusoidLoop(time, 1.14f, 2.0f);
             context.translate(0, sinY + 5);
-            this.drawBanner(context, color);
+            this.drawBanner(context, bannerColor);
             context.pop();
         }
 
         if (backgroundAppearProgress > 0) {
             context.push();
-            Color color = Color.WHITE;
+            Color backgroundColor = Color.WHITE;
             if (backgroundAppearProgress != 1) {
                 Easing easing = Easing.EASE_OUT;
 
-                color = color.withAlpha(easing.lerp(0.0f, 1.0f, backgroundAppearProgress));
+                backgroundColor = backgroundColor.withAlpha(easing.lerp(0.0f, 1.0f, backgroundAppearProgress));
 
                 float x = easing.lerp(35.0f, 0.0f, backgroundAppearProgress);
                 context.translate(x, 0);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-                color = color.withAlpha(fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress));
+                backgroundColor = backgroundColor.withAlpha(fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress));
             }
-            this.drawBackground(context, color);
+            this.drawBackground(context, backgroundColor);
             context.pop();
         }
 
         if (iconAppearProgress > 0) {
             context.push();
-            Color color = Color.WHITE;
+            Color iconColor = Color.WHITE;
             int x = 77;
             float scale = 1;
             if (iconAppearProgress != 1) {
-                color = color.withAlpha(Easing.EASE_OUT.lerp(0.0f, 1.0f, iconAppearProgress));
+                iconColor = iconColor.withAlpha(Easing.EASE_OUT.lerp(0.0f, 1.0f, iconAppearProgress));
                 x = Easing.EASE_OUT.lerp(115, 77, iconAppearProgress);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-                color = color.withAlpha(fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress));
+                iconColor = iconColor.withAlpha(fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress));
                 scale = fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress);
             }
             context.translate(x, 11);
             context.scaleAround(scale, 68 + 13, 14);
             float cosRotation = this.cosineLoop(time, 1.6f, 0.2f);
             context.rotateAround(cosRotation, 68 + 13, 14);
-            this.drawIcon(context, color);
+            this.drawIcon(context, iconColor);
             context.pop();
         }
 

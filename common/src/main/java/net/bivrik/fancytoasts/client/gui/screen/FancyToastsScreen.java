@@ -1,6 +1,6 @@
 package net.bivrik.fancytoasts.client.gui.screen;
 
-import net.bivrik.fancytoasts.platform.utility.Color;
+import net.bivrik.fancytoasts.core.Color;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.bivrik.fancytoasts.core.Managers;
 import net.bivrik.fancytoasts.platform.utility.Components;
