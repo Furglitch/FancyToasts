@@ -3,7 +3,6 @@ package net.bivrik.fancytoasts.client.config;
 import net.bivrik.fancytoasts.platform.utility.Components;
 import net.bivrik.fancytoasts.platform.utility.Vector2;
 import net.minecraft.network.chat.Component;
-import org.joml.Vector2d;
 
 public enum ToastAnchor {
     TOP_LEFT("top_left", 0.0f, 0.0f, 100, -50),
