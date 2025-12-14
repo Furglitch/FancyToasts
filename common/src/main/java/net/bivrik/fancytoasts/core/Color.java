@@ -4,6 +4,8 @@ import net.bivrik.fancytoasts.utility.Easing;
 import net.bivrik.fancytoasts.utility.FastMath;
 import net.bivrik.fancytoasts.utility.Interpolation;
 
+import java.util.Objects;
+
 public class Color {
     public final int a;
     public final int r;
@@ -79,6 +81,22 @@ public class Color {
 
     public boolean isOpaque() {
         return a == 255;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + String.format("{a='%s', r='%s', g='%s', b='%s'}", a, r, g, b);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Color color)) return false;
+        return argb == color.argb;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(a, r, g, b, argb);
     }
 
     /**
