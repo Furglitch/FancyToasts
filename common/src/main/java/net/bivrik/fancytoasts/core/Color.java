@@ -40,7 +40,7 @@ public class Color {
     }
 
     private int toARGB() {
-        return Color.toARGB(this.a, this.r, this.g, this.b);
+        return a << 24 | r << 16 | g << 8 | b;
     }
 
     public int getARGB() {
@@ -104,7 +104,7 @@ public class Color {
      * @return 32-bit representation of color
      */
     public static int toARGB(int a, int r, int g, int b) {
-        return (a << 24) & 0xFF | (r << 16) & 0xFF | (g << 8) & 0xFF | b & 0xFF;
+        return ((a << 24) & 0xFF) | ((r << 16) & 0xFF) | ((g << 8) & 0xFF) | (b & 0xFF);
     }
 
     /**

@@ -257,8 +257,8 @@ public class ResourceLocationList extends ObjectSelectionList<ResourceLocationLi
             return super.getWidth() + 3;
         }
 
-        private static final Color HIGHLIGHT_OUTLINE_COLOR = Color.WHITE.withAlpha(0.05f);
-        private static final Color HIGHLIGHT_COLOR = Color.WHITE.withAlpha(0.35f);
+        private static final Color HOVERING_OUTLINE_COLOR = Color.WHITE.withAlpha(0.05f);
+        private static final Color HOVERING_COLOR = Color.BLACK.withAlpha(0.35f);
 
         @Override
         public void renderContent(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, boolean isHovering, float partialTick) {
@@ -271,8 +271,8 @@ public class ResourceLocationList extends ObjectSelectionList<ResourceLocationLi
                 secondaryColor = Color.PURPLE;
             }
             else if (isHovering) {
-                context.fill(x(), y(), width(), height(), HIGHLIGHT_OUTLINE_COLOR);
-                context.fill(x() + 1, y() + 1, width() - 2, height() - 2, HIGHLIGHT_COLOR);
+                context.fill(x(), y(), width(), height(), HOVERING_OUTLINE_COLOR);
+                context.fill(x() + 1, y() + 1, width() - 2, height() - 2, HOVERING_COLOR);
             }
 
             int nameX = x() + 3;
