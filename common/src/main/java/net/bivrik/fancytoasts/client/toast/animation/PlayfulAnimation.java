@@ -25,8 +25,8 @@ public class PlayfulAnimation extends FancyToastAnimation {
     }
 
     @Override
-    public void draw(GuiGraphics guiGraphics, long time) {
-        super.draw(guiGraphics, time);
+    public void draw(GuiContext guiContext, long time) {
+        super.draw(guiContext, time);
 
         float iconAppearProgress = ICON_APPEARANCE.getProgress(time);
         float iconMovementProgress = ICON_MOVEMENT.getProgress(time);
@@ -35,7 +35,6 @@ public class PlayfulAnimation extends FancyToastAnimation {
         float textAppearProgress = TEXT_APPEARANCE.getProgress(time);
         float fadeOutProgress = Appearance.getProgress(time, FADE_OUT_DURATION, DURATION - FADE_OUT_DURATION);
 
-        GuiContext context = new GuiContext(guiGraphics);
         float globalSinY = this.sinusoidLoop(time, 2.0f, 1.0f) - 3;
 
         if (fadeOutProgress > 0) {
@@ -43,62 +42,60 @@ public class PlayfulAnimation extends FancyToastAnimation {
             int toastCenterX = toastWidth / 2;
             int toastCenterY = toastHeight / 2;
 
-            context.push();
-            context.scaleAround(fadeOutScale, toastCenterX, toastCenterY);
+            guiContext.push();
+            guiContext.scaleAround(fadeOutScale, toastCenterX, toastCenterY);
         }
 
         if (backgroundAppearProgress > 0) {
-            context.push();
+            guiContext.push();
             if (backgroundAppearProgress != 1) {
                 float scale = Easing.ELASTIC_OUT.lerp(0.0f, 1.0f, backgroundAppearProgress);
-                context.scaleAround(scale, 76, 0);
-
                 float rotation = Easing.ELASTIC_OUT.lerp(-1.0f, 0.0f, backgroundAppearProgress);
-                context.rotateAround(rotation, 76, 0);
-
                 float y = Easing.EASE_OUT.lerp(-20.0f, 0.0f, backgroundAppearProgress);
-                context.translate(0, y);
+
+                guiContext.scaleAround(scale, 76, 0)
+                        .rotateAround(rotation, 76, 0)
+                        .translate(0, y);
             }
-            this.drawBackground(context);
-            context.pop();
+            this.drawBackground(guiContext);
+            guiContext.pop();
         }
 
         if (bannerAppearProgress > 0) {
-            context.push();
+            guiContext.push();
             if (bannerAppearProgress != 1) {
                 float scaleX = Easing.EASE_OUT.lerp(0.0f, 1.0f, bannerAppearProgress);
-                context.scaleAround(scaleX, 1, 15, -12);
+                guiContext.scaleAround(scaleX, 1, 15, -12);
             }
-            context.translate(0, globalSinY);
-            this.drawBanner(context);
-            context.pop();
+            guiContext.translate(0, globalSinY);
+            this.drawBanner(guiContext);
+            guiContext.pop();
         }
 
         if (iconAppearProgress > 0) {
-            context.push();
+            guiContext.push();
             if (iconAppearProgress != 1) {
                 float scale = Easing.ELASTIC_OUT.lerp(0.0f, 1.0f, iconAppearProgress);
-                context.scaleAround(scale, 68 + 13, 13);
-
                 float rotation = Easing.ELASTIC_OUT.lerp(-1.0f, 0.0f, iconAppearProgress);
-                context.rotateAround(rotation, 68 + 13, 13);
+                guiContext.scaleAround(scale, 68 + 13, 13)
+                        .rotateAround(rotation, 68 + 13, 13);
             }
             else if (iconMovementProgress > 0) {
                 float x = Easing.EASE_OUT.lerp(0.0f, -60.0f, iconMovementProgress);
-                context.translate(x, 0);
+                guiContext.translate(x, 0);
             }
-            context.translate(0, globalSinY - 5);
-            this.drawIcon(context);
-            context.pop();
+            guiContext.translate(0, globalSinY - 5);
+            this.drawIcon(guiContext);
+            guiContext.pop();
         }
 
         if (textAppearProgress > 0) {
-            this.drawTitle(context, textAppearProgress);
-            this.drawDescription(context, textAppearProgress);
+            this.drawTitle(guiContext, textAppearProgress);
+            this.drawDescription(guiContext, textAppearProgress);
         }
 
         if (fadeOutProgress > 0) {
-            context.pop();
+            guiContext.pop();
         }
     }
 

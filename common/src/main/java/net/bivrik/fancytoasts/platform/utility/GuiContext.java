@@ -29,28 +29,53 @@ public class GuiContext {
         return stack;
     }
 
-    public void push() {
+    public GuiContext push() {
         stack.pushMatrix();
+        return this;
     }
 
     public void pop() {
         stack.popMatrix();
     }
 
-    public void translate(float x, float y) {
+    public GuiContext translate(float x, float y) {
         stack.translate(x, y);
+        return this;
     }
 
-    public void rotateAround(float rotation, float ox, float oy) {
+    public GuiContext translate(Vector2 position) {
+        stack.translate(position.x, position.y);
+        return this;
+    }
+
+    public GuiContext rotateAround(float rotation, float ox, float oy) {
         stack.rotateAbout(rotation, ox, oy);
+        return this;
     }
 
-    public void scaleAround(float sx, float sy, float ox, float oy) {
+    public GuiContext rotateAround(float rotation, Vector2 origin) {
+        stack.rotateAbout(rotation, origin.x, origin.y);
+        return this;
+    }
+
+    public GuiContext scaleAround(float sx, float sy, float ox, float oy) {
         stack.scaleAround(sx, sy, ox, oy);
+        return this;
     }
 
-    public void scaleAround(float scale, float ox, float oy) {
-        scaleAround(scale, scale, ox, oy);
+    public GuiContext scaleAround(float scale, float ox, float oy) {
+        stack.scaleAround(scale, scale, ox, oy);
+        return this;
+    }
+
+    public GuiContext scaleAround(Vector2 scale, Vector2 origin) {
+        stack.scaleAround(scale.x, scale.y, origin.x, origin.y);
+        return this;
+    }
+
+    public GuiContext scaleAround(float scale, Vector2 origin) {
+        stack.scaleAround(scale, scale, origin.x, origin.y);
+        return this;
     }
 
     private FormattedCharSequence toFormattedCharSequence(String string) {

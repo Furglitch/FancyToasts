@@ -10,7 +10,6 @@ import net.bivrik.fancytoasts.platform.utility.ToastDisplayInfo;
 import net.bivrik.fancytoasts.platform.utility.TextureUV;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
@@ -87,7 +86,7 @@ public abstract class FancyToastAnimation {
         return descriptionLines;
     }
 
-    public void draw(GuiGraphics guiGraphics, long time) {
+    public void draw(GuiContext guiContext, long time) {
         if (shouldTransparentToast && Objects.requireNonNull(Managers.getToastManager()).isScreenOpened()) {
             guiAlpha = 0.5f;
         }

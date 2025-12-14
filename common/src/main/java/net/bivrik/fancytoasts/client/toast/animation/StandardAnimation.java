@@ -6,7 +6,6 @@ import net.bivrik.fancytoasts.core.Color;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.bivrik.fancytoasts.utility.Easing;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.FormattedCharSequence;
 
 public class StandardAnimation extends FancyToastAnimation {
@@ -29,8 +28,8 @@ public class StandardAnimation extends FancyToastAnimation {
     }
 
     @Override
-    public void draw(GuiGraphics guiGraphics, long time) {
-        super.draw(guiGraphics, time);
+    public void draw(GuiContext guiContext, long time) {
+        super.draw(guiContext, time);
 
         float iconAppearProgress = ICON_APPEARANCE.getProgress(time);
         float bannerAppearProgress = BANNER_APPEARANCE.getProgress(time);
@@ -38,57 +37,54 @@ public class StandardAnimation extends FancyToastAnimation {
         float textAppearProgress = TEXT_APPEARANCE.getProgress(time);
         float fadeOutProgress = Appearance.getProgress(time, FADE_OUT_DURATION, DURATION - FADE_OUT_DURATION);
 
-        GuiContext context = new GuiContext(guiGraphics);
-
         if (fadeOutProgress > 0) {
             float fadeOutY = easeIn.lerp(0.0f, -80.0f, fadeOutProgress);
 
-            context.push();
-            context.translate(0, fadeOutY);
+            guiContext.push()
+                    .translate(0, fadeOutY);
         }
 
         if (backgroundAppearProgress > 0) {
-            context.push();
+            guiContext.push();
             if (backgroundAppearProgress != 1) {
                 float y = easeOut.lerp(-200.0f, 0.0f, backgroundAppearProgress);
-                context.translate(0, y);
+                guiContext.translate(0, y);
             }
-            this.drawBackground(context);
-            context.pop();
+            this.drawBackground(guiContext);
+            guiContext.pop();
         }
 
         if (bannerAppearProgress > 0) {
-            context.push();
+            guiContext.push();
             if (bannerAppearProgress != 1) {
                 float xScale = easeOut.lerp(0.0f, 1.0f, bannerAppearProgress);
-                context.scaleAround(xScale, 1, 81, 0);
+                guiContext.scaleAround(xScale, 1, 81, 0);
             }
-            this.drawBanner(context);
-            context.pop();
+            this.drawBanner(guiContext);
+            guiContext.pop();
         }
 
         if (iconAppearProgress > 0) {
-            context.push();
+            guiContext.push();
             if (iconAppearProgress != 1) {
                 float scale = easeOut.lerp(0.0f, 1.0f, iconAppearProgress);
-                context.scaleAround(scale, 81, 13);
-
                 float y = easeOut.lerp(-100.0f, 0.0f, iconAppearProgress);
-                context.translate(0, y);
+                guiContext.scaleAround(scale, 81, 13)
+                        .translate(0, y);
             }
             float sinY = this.sinusoidLoop(time, 1.6f, 1.5f);
-            context.translate(0, sinY - 5);
-            this.drawIcon(context);
-            context.pop();
+            guiContext.translate(0, sinY - 5);
+            this.drawIcon(guiContext);
+            guiContext.pop();
         }
 
         if (textAppearProgress > 0) {
-            this.drawTitle(context, textAppearProgress);
-            this.drawDescription(context, textAppearProgress);
+            this.drawTitle(guiContext, textAppearProgress);
+            this.drawDescription(guiContext, textAppearProgress);
         }
 
         if (fadeOutProgress > 0) {
-            context.pop();
+            guiContext.pop();
         }
     }
 

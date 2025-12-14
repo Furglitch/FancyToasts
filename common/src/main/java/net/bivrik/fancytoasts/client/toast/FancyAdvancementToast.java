@@ -4,10 +4,10 @@ import net.bivrik.fancytoasts.core.Debug;
 import net.bivrik.fancytoasts.client.registry.AnimationRegistry;
 import net.bivrik.fancytoasts.client.toast.animation.FancyToastAnimation;
 import net.bivrik.fancytoasts.core.Managers;
+import net.bivrik.fancytoasts.platform.utility.GuiContext;
 import net.bivrik.fancytoasts.platform.utility.ToastDisplayInfo;
 import net.bivrik.fancytoasts.utility.DefaultUVs;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.resources.ResourceLocation;
@@ -63,8 +63,8 @@ public class FancyAdvancementToast {
         Debug.info("Created new fancy advancement toast: {}", displayInfo.getTitle().getString());
     }
 
-    public void draw(GuiGraphics graphics) {
-        animation.draw(graphics, time);
+    public void draw(GuiContext guiContext) {
+        animation.draw(guiContext, time);
     }
 
     public void update(long time) {

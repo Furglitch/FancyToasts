@@ -32,8 +32,8 @@ public class QuirkyAnimation extends FancyToastAnimation {
     }
 
     @Override
-    public void draw(GuiGraphics guiGraphics, long time) {
-        super.draw(guiGraphics, time);
+    public void draw(GuiContext guiContext, long time) {
+        super.draw(guiContext, time);
 
         float iconAppearProgress = ICON_APPEARANCE.getProgress(time);
         float iconScaleProgress = ICON_SCALE.getProgress(time);
@@ -42,12 +42,11 @@ public class QuirkyAnimation extends FancyToastAnimation {
         float textAppearProgress = TEXT_APPEARANCE.getProgress(time);
         float fadeOutProgress = Appearance.getProgress(time, FADE_OUT_DURATION, DURATION - FADE_OUT_DURATION);
 
-        GuiContext context = new GuiContext(guiGraphics);
         float globalSinX = this.sinusoidLoop(time, 1.0F, 7.0F);
         float globalSinY = this.sinusoidLoop(time, 2.0F, 5.0F);
 
-        context.push();
-        context.translate(globalSinX, globalSinY - 20);
+        guiContext.push()
+                .translate(globalSinX, globalSinY - 20);
 
         if (fadeOutProgress > 0) {
             float fadeOutScaleX = easeIn.lerp(1.0f, 0.0f, fadeOutProgress);
@@ -55,58 +54,58 @@ public class QuirkyAnimation extends FancyToastAnimation {
             int toastCenterX = toastWidth / 2;
             int toastCenterY = toastHeight / 2;
 
-            context.push();
-            context.scaleAround(fadeOutScaleX, toastCenterX, toastCenterY);
-            context.rotateAround(fadeOutRotation, toastCenterX, toastCenterY);
+            guiContext.push()
+                    .scaleAround(fadeOutScaleX, toastCenterX, toastCenterY)
+                    .rotateAround(fadeOutRotation, toastCenterX, toastCenterY);
         }
 
         if (bannerAppearProgress > 0) {
-            context.push();
+            guiContext.push();
             float y = 58;
             if (bannerAppearProgress != 1) {
                 y = easeOut.lerp(-24.0f, 58.0f, bannerAppearProgress);
             }
-            context.translate(0, y);
-            this.drawBanner(context);
-            context.pop();
+            guiContext.translate(0, y);
+            this.drawBanner(guiContext);
+            guiContext.pop();
         }
 
         if (backgroundAppearProgress > 0) {
-            context.push();
+            guiContext.push();
             if (backgroundAppearProgress != 1) {
                 float y = easeOut.lerp(-95.0f, 0.0f, backgroundAppearProgress);
-                context.translate(0, y);
+                guiContext.translate(0, y);
             }
-            this.drawBackground(context);
-            context.pop();
+            this.drawBackground(guiContext);
+            guiContext.pop();
         }
 
         if (iconAppearProgress > 0) {
-            context.push();
+            guiContext.push();
             float y = 55;
             if (iconAppearProgress != 1) {
                 y = easeOut.lerp(-95.0f, 55.0f, iconAppearProgress);
             }
             if (iconScaleProgress > 0 && iconScaleProgress != 1) {
                 float scale = easeOut.lerp(3.0f, 1.0f, iconScaleProgress);
-                context.scaleAround(scale, 68 + 13, 17);
+                guiContext.scaleAround(scale, 68 + 13, 17);
             }
             float sinY = this.sinusoidLoop(time, 2.0F, -1.2F);
-            context.translate(0, sinY + y);
-            this.drawIcon(context);
-            context.pop();
+            guiContext.translate(0, sinY + y);
+            this.drawIcon(guiContext);
+            guiContext.pop();
         }
 
         if (textAppearProgress > 0) {
-            this.drawTitle(context, textAppearProgress);
-            this.drawDescription(context, textAppearProgress);
+            this.drawTitle(guiContext, textAppearProgress);
+            this.drawDescription(guiContext, textAppearProgress);
         }
 
         if (fadeOutProgress > 0) {
-            context.pop();
+            guiContext.pop();
         }
 
-        context.pop();
+        guiContext.pop();
     }
 
     @Override

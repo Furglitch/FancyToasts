@@ -4,9 +4,9 @@ import net.bivrik.fancytoasts.client.toast.AnimationSetup;
 import net.bivrik.fancytoasts.client.toast.Appearance;
 import net.bivrik.fancytoasts.core.Color;
 import net.bivrik.fancytoasts.platform.utility.GuiContext;
+import net.bivrik.fancytoasts.platform.utility.Transform;
 import net.bivrik.fancytoasts.utility.Easing;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 
 public class OldlikeAnimation extends FancyToastAnimation {
     private final Appearance ICON_APPEARANCE = new Appearance(2000, 0);
@@ -20,6 +20,7 @@ public class OldlikeAnimation extends FancyToastAnimation {
 
     private final Easing fadeOutEasing = Easing.EASE_IN;
     private final Easing textEasing = Easing.ELASTIC_OUT;
+    private final Easing appearingEasing = Easing.EASE_OUT;
 
     @Override
     public void setup(AnimationSetup setup, Minecraft minecraft, int toastWidth, int toastHeight) {
@@ -29,8 +30,8 @@ public class OldlikeAnimation extends FancyToastAnimation {
     }
 
     @Override
-    public void draw(GuiGraphics guiGraphics, long time) {
-        super.draw(guiGraphics, time);
+    public void draw(GuiContext guiContext, long time) {
+        super.draw(guiContext, time);
 
         float iconAppearProgress = ICON_APPEARANCE.getProgress(time);
         float bannerAppearProgress = BANNER_APPEARANCE.getProgress(time);
@@ -39,65 +40,58 @@ public class OldlikeAnimation extends FancyToastAnimation {
         float descriptionAppearProgress = DESCRIPTION_TEXT_APPEARANCE.getProgress(time);
         float fadeOutProgress = Appearance.getProgress(time, FADE_OUT_DURATION, DURATION - FADE_OUT_DURATION);
 
-        GuiContext context = new GuiContext(guiGraphics);
-
         if (bannerAppearProgress > 0) {
-            context.push();
-            Color bannerColor = Color.WHITE;
+            guiContext.push();
+            Color color = Color.WHITE;
             if (bannerAppearProgress != 1) {
-                Easing easing = Easing.EASE_OUT;
-
-                bannerColor = bannerColor.withAlpha(easing.lerp(0.0f, 1.0f, bannerAppearProgress));
-
-                float x = easing.lerp(35.0f, 0.0f, bannerAppearProgress);
-                context.translate(x, 0);
+                color = color.withAlpha(appearingEasing.lerp(0.0f, 1.0f, bannerAppearProgress));
+                float x = appearingEasing.lerp(35.0f, 0.0f, bannerAppearProgress);
+                guiContext.translate(x, 0);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
-                bannerColor = bannerColor.withAlpha(fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress));
+                color = color.withAlpha(fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress));
             }
             float sinY = this.sinusoidLoop(time, 1.14f, 2.0f);
-            context.translate(0, sinY + 5);
-            this.drawBanner(context, bannerColor);
-            context.pop();
+            guiContext.translate(0, sinY + 5);
+            this.drawBanner(guiContext, color);
+            guiContext.pop();
         }
 
         if (backgroundAppearProgress > 0) {
-            context.push();
+            guiContext.push();
             Color backgroundColor = Color.WHITE;
             if (backgroundAppearProgress != 1) {
-                Easing easing = Easing.EASE_OUT;
+                backgroundColor = backgroundColor.withAlpha(appearingEasing.lerp(0.0f, 1.0f, backgroundAppearProgress));
 
-                backgroundColor = backgroundColor.withAlpha(easing.lerp(0.0f, 1.0f, backgroundAppearProgress));
-
-                float x = easing.lerp(35.0f, 0.0f, backgroundAppearProgress);
-                context.translate(x, 0);
+                float x = appearingEasing.lerp(35.0f, 0.0f, backgroundAppearProgress);
+                guiContext.translate(x, 0);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
                 backgroundColor = backgroundColor.withAlpha(fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress));
             }
-            this.drawBackground(context, backgroundColor);
-            context.pop();
+            this.drawBackground(guiContext, backgroundColor);
+            guiContext.pop();
         }
 
         if (iconAppearProgress > 0) {
-            context.push();
+            guiContext.push();
             Color iconColor = Color.WHITE;
             int x = 77;
             float scale = 1;
             if (iconAppearProgress != 1) {
-                iconColor = iconColor.withAlpha(Easing.EASE_OUT.lerp(0.0f, 1.0f, iconAppearProgress));
-                x = Easing.EASE_OUT.lerp(115, 77, iconAppearProgress);
+                iconColor = iconColor.withAlpha(appearingEasing.lerp(0.0f, 1.0f, iconAppearProgress));
+                x = appearingEasing.lerp(115, 77, iconAppearProgress);
             }
             else if (fadeOutProgress != 1 && fadeOutProgress > 0) {
                 iconColor = iconColor.withAlpha(fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress));
                 scale = fadeOutEasing.lerp(1.0f, 0.0f, fadeOutProgress);
             }
-            context.translate(x, 11);
-            context.scaleAround(scale, 68 + 13, 14);
             float cosRotation = this.cosineLoop(time, 1.6f, 0.2f);
-            context.rotateAround(cosRotation, 68 + 13, 14);
-            this.drawIcon(context, iconColor);
-            context.pop();
+            guiContext.translate(x, 11)
+                    .scaleAround(scale, 68 + 13, 14)
+                    .rotateAround(cosRotation, 68 + 13, 14);
+            this.drawIcon(guiContext, iconColor);
+            guiContext.pop();
         }
 
         float fadeOutTextAlpha = 0;
@@ -106,23 +100,23 @@ public class OldlikeAnimation extends FancyToastAnimation {
         }
 
         if (titleAppearProgress > 0) {
-            context.push();
+            guiContext.push();
             if (titleAppearProgress != 1) {
                 int x = textEasing.lerp(50, 0, titleAppearProgress);
-                context.translate(x, 0);
+                guiContext.translate(x, 0);
             }
-            this.drawTitle(context, titleAppearProgress - fadeOutTextAlpha);
-            context.pop();
+            this.drawTitle(guiContext, titleAppearProgress - fadeOutTextAlpha);
+            guiContext.pop();
         }
 
         if (descriptionAppearProgress > 0) {
-            context.push();
+            guiContext.push();
             if (descriptionAppearProgress != 1) {
                 int x = textEasing.lerp(50, 0, descriptionAppearProgress);
-                context.translate(x, 0);
+                guiContext.translate(x, 0);
             }
-            this.drawDescription(context, descriptionAppearProgress - fadeOutTextAlpha);
-            context.pop();
+            this.drawDescription(guiContext, descriptionAppearProgress - fadeOutTextAlpha);
+            guiContext.pop();
         }
     }
 
